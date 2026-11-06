@@ -5,7 +5,7 @@ description: Sistema de diseño de todos los proyectos de Diego (SpiderPDF, Spid
 
 # spider-ui
 
-Toda la interfaz de los proyectos de Diego usa el paquete **spider-ui** (repositorio privado `seecorpdesarrollos/spider-ui`). El estilo NO se inventa en cada proyecto: sale de ese paquete.
+Toda la interfaz de los proyectos de Diego usa el paquete **spider-ui** (repositorio privado `spiderjad/spider-ui`). El estilo NO se inventa en cada proyecto: sale de ese paquete.
 
 ## Paso 1: Excepción
 
@@ -17,7 +17,7 @@ Mirá el `package.json` del frontend.
 
 - Si `spider-ui` **no** está en las dependencias, instalalo:
   ```bash
-  npm install github:seecorpdesarrollos/spider-ui
+  npm install github:spiderjad/spider-ui#<commit>
   ```
   Si no hay `package.json` (por ejemplo, HTML suelto), creá uno con `npm init -y` y luego instalá.
 - Comprobá que se importa **una sola vez** en el entry del frontend (`src/main.*`, `src/renderer.*`, `src/index.*`…):

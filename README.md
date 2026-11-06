@@ -15,7 +15,7 @@ Sistema de diseño compartido de los proyectos Spider (Spidercitas, SpiderPDF, S
 ## Usar en un proyecto
 
 ```bash
-npm install github:seecorpdesarrollos/spider-ui
+npm install github:spiderjad/spider-ui#<commit>
 ```
 ```js
 import 'spider-ui/spider-ui.css';
@@ -28,7 +28,7 @@ Detalle completo en [GUIDE.md](GUIDE.md).
 1. Editar `tokens.css` (o el componente correspondiente) y comprobarlo en `demo.html`.
 2. Subir `version` en `package.json` (por ejemplo, de 1.0.0 a 1.1.0).
 3. `git commit -am "…" && git push`
-4. En cada proyecto: `npm install github:seecorpdesarrollos/spider-ui`
+4. En cada proyecto: `npm install github:spiderjad/spider-ui#<commit>`
 
 ## Pendiente
 

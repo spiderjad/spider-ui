@@ -37,8 +37,8 @@
   transition: border-color var(--sp-ease), box-shadow var(--sp-ease);
 }
 .v-input:hover { border-color: var(--sp-border-hover); }
-.v-input:focus { border-color: #000; }
-.v-input:focus-visible { box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08); }
+.v-input:focus { border-color: var(--sp-focus); }
+.v-input:focus-visible { box-shadow: 0 0 0 3px var(--sp-focus-ring); }
 .v-input::placeholder { color: var(--sp-text-tertiary); }
 .v-input option { background: var(--sp-bg); color: var(--sp-text-primary); }
 .v-input[aria-invalid="true"] { border-color: var(--sp-danger); }
@@ -66,8 +66,8 @@ textarea.v-input { min-height: 88px; resize: vertical; line-height: 1.5; }
 }
 
 /* Primario: negro. Una sola acción principal por vista. */
-.v-btn-primary { color: #fff; background: #000; border: 1px solid #000; }
-.v-btn-primary:hover:not(:disabled) { background: #333; }
+.v-btn-primary { color: var(--sp-on-inverse); background: var(--sp-inverse); border: 1px solid var(--sp-inverse); }
+.v-btn-primary:hover:not(:disabled) { background: var(--sp-inverse-hover); border-color: var(--sp-inverse-hover); }
 
 /* Secundario: blanco con borde. */
 .v-btn-secondary { color: var(--sp-text-primary); background: var(--sp-bg); border: 1px solid var(--sp-border); }
@@ -79,7 +79,7 @@ textarea.v-input { min-height: 88px; resize: vertical; line-height: 1.5; }
 
 .v-btn-primary:focus-visible,
 .v-btn-secondary:focus-visible,
-.v-btn-danger:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
+.v-btn-danger:focus-visible { outline: 2px solid var(--sp-focus); outline-offset: 2px; }
 
 .v-btn-primary:disabled,
 .v-btn-secondary:disabled,
@@ -100,10 +100,10 @@ textarea.v-input { min-height: 88px; resize: vertical; line-height: 1.5; }
   color: var(--sp-text-secondary);
   border: 1px solid var(--sp-border);
 }
-.v-badge--success { background: var(--sp-success-light); color: var(--sp-success); border-color: #bbf7d0; }
-.v-badge--warning { background: var(--sp-warning-light); color: var(--sp-warning); border-color: #fde68a; }
-.v-badge--danger  { background: var(--sp-danger-light);  color: var(--sp-danger);  border-color: #fecaca; }
-.v-badge--brand   { background: var(--sp-primary-light); color: var(--sp-primary-text); border-color: #ddd6fe; }
+.v-badge--success { background: var(--sp-success-light); color: var(--sp-success); border-color: var(--sp-success-border); }
+.v-badge--warning { background: var(--sp-warning-light); color: var(--sp-warning); border-color: var(--sp-warning-border); }
+.v-badge--danger  { background: var(--sp-danger-light);  color: var(--sp-danger-text); border-color: var(--sp-danger-border); }
+.v-badge--brand   { background: var(--sp-primary-light); color: var(--sp-primary-text); border-color: var(--sp-primary-border); }
 
 /* ── Tarjetas ─────────────────────────────────────────────────── */
 
@@ -162,16 +162,215 @@ textarea.v-input { min-height: 88px; resize: vertical; line-height: 1.5; }
   border: 1px solid var(--sp-border);
   color: var(--sp-text-primary);
 }
-.v-banner--danger  { background: var(--sp-danger-light);  border-color: #fecaca; color: #b91c1c; }
-.v-banner--success { background: var(--sp-success-light); border-color: #bbf7d0; color: var(--sp-success); }
-.v-banner--warning { background: var(--sp-warning-light); border-color: #fde68a; color: var(--sp-warning); }
-.v-banner--info    { background: var(--sp-primary-light); border-color: #ddd6fe; color: var(--sp-primary-text); }
+.v-banner--danger  { background: var(--sp-danger-light);  border-color: var(--sp-danger-border); color: var(--sp-danger-text); }
+.v-banner--success { background: var(--sp-success-light); border-color: var(--sp-success-border); color: var(--sp-success); }
+.v-banner--warning { background: var(--sp-warning-light); border-color: var(--sp-warning-border); color: var(--sp-warning); }
+.v-banner--info    { background: var(--sp-primary-light); border-color: var(--sp-primary-border); color: var(--sp-primary-text); }
 
 /* ── Tipografía de página ─────────────────────────────────────── */
 
 .v-page-title { margin: 0 0 4px; font-size: 24px; font-weight: 600; letter-spacing: -0.02em; }
 .v-page-subtitle { margin: 0 0 24px; font-size: 14px; color: var(--sp-text-secondary); }
 .v-divider { border: none; border-top: 1px solid var(--sp-border); margin: 24px 0; }
+
+/* ── Botones de barra (1.1.0) ─────────────────────────────────────
+   v-btn-ghost: sin fondo, para barras de herramientas y menús (icono + texto).
+   v-btn-icon: cuadrado, solo icono (lleva aria-label). Los dos aceptan
+   aria-pressed="true" (herramienta activa) y aria-expanded="true" (menú abierto). */
+
+.v-btn-ghost,
+.v-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 32px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--sp-font);
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--sp-text-primary);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--sp-radius);
+  cursor: pointer;
+  transition: background var(--sp-ease), border-color var(--sp-ease), color var(--sp-ease), transform var(--sp-ease);
+}
+.v-btn-ghost { padding: 0 10px; }
+.v-btn-icon { width: 32px; padding: 0; }
+.v-btn-ghost svg, .v-btn-icon svg { flex-shrink: 0; color: var(--sp-text-secondary); transition: color var(--sp-ease); }
+.v-btn-ghost:hover:not(:disabled):not([aria-disabled="true"]),
+.v-btn-icon:hover:not(:disabled):not([aria-disabled="true"]),
+.v-btn-ghost[aria-expanded="true"],
+.v-btn-icon[aria-expanded="true"] { background: var(--sp-bg-muted); }
+.v-btn-ghost:hover svg, .v-btn-icon:hover svg { color: var(--sp-text-primary); }
+.v-btn-ghost:active:not(:disabled), .v-btn-icon:active:not(:disabled) { transform: scale(0.97); }
+.v-btn-ghost[aria-pressed="true"],
+.v-btn-icon[aria-pressed="true"] {
+  background: var(--sp-bg);
+  border-color: var(--sp-border);
+  box-shadow: var(--sp-shadow);
+}
+.v-btn-ghost[aria-pressed="true"] svg, .v-btn-icon[aria-pressed="true"] svg { color: var(--sp-text-primary); }
+.v-btn-ghost:focus-visible, .v-btn-icon:focus-visible { outline: 2px solid var(--sp-focus); outline-offset: 2px; }
+.v-btn-ghost:disabled, .v-btn-icon:disabled,
+.v-btn-ghost[aria-disabled="true"], .v-btn-icon[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; }
+.v-btn--sm.v-btn-ghost, .v-btn--sm.v-btn-icon { height: 28px; }
+.v-btn--sm.v-btn-icon { width: 28px; }
+
+/* ── Barra de herramientas ─────────────────────────────────────
+   <div class="v-toolbar" role="toolbar" aria-label="…">
+     <div class="v-toolbar__group">…botones…</div>
+     <span class="v-toolbar__sep" aria-hidden="true"></span>
+     <span class="v-toolbar__spacer"></span>   (empuja lo siguiente a la derecha)
+   </div>
+   v-toolbar--sub: barra secundaria (debajo de la principal, fondo sutil). */
+
+.v-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 48px;
+  padding: 0 10px;
+  background: var(--sp-bg);
+  border-bottom: 1px solid var(--sp-border);
+}
+.v-toolbar--sub { min-height: 44px; background: var(--sp-bg-subtle); }
+.v-toolbar__group { display: flex; align-items: center; gap: 2px; }
+.v-toolbar__sep { flex-shrink: 0; width: 1px; height: 20px; margin: 0 6px; background: var(--sp-border); }
+.v-toolbar__spacer { flex: 1; }
+
+/* ── Control segmentado (vistas, pestañas cortas) ────────────────
+   <div class="v-segmented" role="tablist">
+     <button class="v-segmented__item" role="tab" aria-selected="true">…</button>
+   </div>   (o aria-pressed en vez de aria-selected) */
+
+.v-segmented {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  background: var(--sp-bg-muted);
+  border-radius: var(--sp-radius);
+}
+.v-segmented__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--sp-font);
+  color: var(--sp-text-secondary);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: calc(var(--sp-radius) - 2px);
+  cursor: pointer;
+  transition: background var(--sp-ease), color var(--sp-ease), box-shadow var(--sp-ease);
+}
+.v-segmented__item:hover:not(:disabled) { color: var(--sp-text-primary); }
+.v-segmented__item[aria-selected="true"],
+.v-segmented__item[aria-pressed="true"] {
+  color: var(--sp-text-primary);
+  background: var(--sp-bg);
+  border-color: var(--sp-border);
+  box-shadow: var(--sp-shadow);
+}
+.v-segmented__item:focus-visible { outline: 2px solid var(--sp-focus); outline-offset: 1px; }
+.v-segmented__item:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* ── Menú desplegable ─────────────────────────────────────────────
+   <div class="v-menu" role="menu">
+     <button class="v-menu__item" role="menuitem">
+       <svg/> <span class="v-menu__label">Texto <span class="v-menu__desc">Descripción</span></span>
+       <span class="v-menu__hint">Ctrl+S</span>
+     </button>
+     <div class="v-menu__sep" role="separator"></div>
+   </div>
+   Elemento resaltado con el teclado: data-highlighted o :focus-visible. */
+
+.v-menu {
+  min-width: 220px;
+  padding: 4px;
+  background: var(--sp-bg);
+  border: 1px solid var(--sp-border);
+  border-radius: var(--sp-radius-lg);
+  box-shadow: var(--sp-shadow-md);
+  font-family: var(--sp-font);
+}
+.v-menu__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 32px;
+  padding: 6px 10px;
+  font-size: 14px;
+  font-family: var(--sp-font);
+  text-align: left;
+  color: var(--sp-text-primary);
+  background: transparent;
+  border: 0;
+  border-radius: var(--sp-radius);
+  cursor: default;
+  outline: none;
+}
+.v-menu__item svg { flex-shrink: 0; color: var(--sp-text-secondary); }
+.v-menu__item:hover:not([aria-disabled="true"]),
+.v-menu__item[data-highlighted],
+.v-menu__item:focus-visible { background: var(--sp-bg-muted); }
+.v-menu__item[aria-disabled="true"] { opacity: 0.45; }
+.v-menu__label { flex: 1; min-width: 0; }
+.v-menu__desc { display: block; margin-top: 1px; font-size: 12px; line-height: 1.4; color: var(--sp-text-secondary); }
+.v-menu__hint { font-size: 12px; color: var(--sp-text-secondary); font-variant-numeric: tabular-nums; }
+.v-menu__sep { height: 1px; margin: 4px 8px; background: var(--sp-border); }
+
+/* ── Modal ────────────────────────────────────────────────────────
+   <dialog class="v-app v-dialog" aria-labelledby="t">  (abrir con showModal())
+     <header class="v-card__header"><h2 class="v-card__title" id="t">…</h2></header>
+     <div class="v-card__body">…</div>
+     <footer class="v-card__footer">…</footer>
+   </dialog>
+   v-dialog--wide: 720px. El cuerpo hace scroll si no cabe. */
+
+.v-dialog {
+  width: 480px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 32px);
+  padding: 0;
+  margin: auto;
+  overflow: hidden;
+  color: var(--sp-text-primary);
+  background: var(--sp-bg);
+  border: 1px solid var(--sp-border);
+  border-radius: var(--sp-radius-lg);
+  box-shadow: var(--sp-shadow-lg);
+}
+.v-dialog--wide { width: 720px; }
+.v-dialog[open] { display: flex; flex-direction: column; animation: v-dialog-in 160ms ease-out; }
+.v-dialog > form { display: flex; flex-direction: column; min-height: 0; max-height: inherit; }
+.v-dialog .v-card__body { overflow-y: auto; min-height: 0; }
+.v-dialog::backdrop { background: var(--sp-backdrop); animation: v-dialog-fade 160ms ease-out; }
+@keyframes v-dialog-in { from { opacity: 0; transform: translateY(6px) scale(0.98); } }
+@keyframes v-dialog-fade { from { opacity: 0; } }
+
+/* ── Tecla ──────────────────────────────────────────────────────── */
+
+.v-kbd {
+  display: inline-block;
+  min-width: 18px;
+  padding: 1px 5px;
+  font-size: 11px;
+  font-family: var(--sp-font);
+  font-variant-numeric: tabular-nums;
+  line-height: 16px;
+  text-align: center;
+  color: var(--sp-text-secondary);
+  background: var(--sp-bg-subtle);
+  border: 1px solid var(--sp-border);
+  border-radius: 4px;
+}
 
 /* ── Utilidades ───────────────────────────────────────────────── */
 
@@ -181,5 +380,8 @@ textarea.v-input { min-height: 88px; resize: vertical; line-height: 1.5; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .v-input, .v-btn-primary, .v-btn-secondary, .v-btn-danger { transition: none; }
+  .v-input, .v-btn-primary, .v-btn-secondary, .v-btn-danger,
+  .v-btn-ghost, .v-btn-icon, .v-segmented__item { transition: none; }
+  .v-btn-ghost:active, .v-btn-icon:active { transform: none; }
+  .v-dialog[open], .v-dialog::backdrop { animation: none; }
 }

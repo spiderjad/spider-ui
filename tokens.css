@@ -3,10 +3,17 @@
  * ÚNICA fuente de colores, tipografía, radios y sombras de todos los
  * proyectos Spider. Para cambiar el estilo de todo: se cambia aquí,
  * se sube una versión nueva y cada proyecto reinstala el paquete.
+ *
+ * Modo oscuro (desde 1.1.0): sigue al sistema (prefers-color-scheme).
+ * Para forzarlo, data-theme="dark" o data-theme="light" en <html>.
+ * Contraste AA comprobado en los dos modos (texto sobre --sp-bg, --sp-bg-subtle y --sp-canvas).
  */
 :root {
+  color-scheme: light;
+
   /* ── Tipografía ─────────────────────────────────────────────── */
-  --sp-font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* «Inter Variable» es el nombre de @fontsource-variable/inter (apps de escritorio u offline). */
+  --sp-font: 'Inter Variable', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --sp-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   /* ── Marca (de las pantallas de acceso de Spidercitas) ──────── */
@@ -14,7 +21,9 @@
   --sp-primary-hover: #6d28d9;
   --sp-primary-ring: rgba(124, 58, 237, 0.18);
   --sp-primary-light: #f5f3ff;
+  --sp-primary-border: #ddd6fe;
   --sp-primary-text: #5b21b6;
+  --sp-on-primary: #ffffff;        /* texto sobre --sp-primary */
   --sp-accent: #f59e0b;            /* encima siempre texto oscuro (AA) */
 
   /* ── Panel (estilo Vercel) ──────────────────────────────────────
@@ -22,24 +31,119 @@
      Spidercitas (buscar "--text-primary:" en su código). */
   --sp-bg: #ffffff;
   --sp-bg-subtle: #fafafa;
+  --sp-bg-muted: #f2f2f2;          /* hover de botones fantasma, fondo de controles segmentados */
+  --sp-canvas: #ededed;            /* zona de trabajo bajo documentos y lienzos (el papel, en blanco, destaca) */
   --sp-border: #eaeaea;
   --sp-border-hover: #a3a3a3;
   --sp-text-primary: #0a0a0a;
-  --sp-text-secondary: #525252;    /* AA sobre blanco */
+  --sp-text-secondary: #525252;    /* AA sobre blanco y sobre --sp-canvas */
   --sp-text-tertiary: #8f8f8f;     /* solo placeholders y decoración */
+  --sp-inverse: #000000;           /* botón primario (negro) */
+  --sp-inverse-hover: #333333;
+  --sp-on-inverse: #ffffff;
+  --sp-focus: #000000;             /* contorno de foco */
+  --sp-focus-ring: rgba(0, 0, 0, 0.08);
+  --sp-backdrop: rgba(10, 10, 10, 0.32); /* fondo de los modales */
   --sp-radius: 6px;
   --sp-radius-lg: 10px;
   --sp-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --sp-shadow-md: 0 8px 24px -8px rgba(0, 0, 0, 0.16), 0 2px 6px -2px rgba(0, 0, 0, 0.06); /* menús, avisos */
   --sp-shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.05);
 
   /* ── Estados ────────────────────────────────────────────────── */
   --sp-danger: #dc2626;            /* texto y bordes: #ef4444 no llega a AA */
   --sp-danger-light: #fef2f2;
+  --sp-danger-border: #fecaca;
+  --sp-danger-text: #b91c1c;
   --sp-success: #15803d;
   --sp-success-light: #f0fdf4;
+  --sp-success-border: #bbf7d0;
   --sp-warning: #92400e;
   --sp-warning-light: #fffbeb;
+  --sp-warning-border: #fde68a;
 
   /* ── Movimiento ─────────────────────────────────────────────── */
   --sp-ease: 150ms ease;
+}
+
+/* Oscuro: el del sistema, salvo que la página fuerce el claro. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --sp-primary: #a78bfa;
+    --sp-primary-hover: #c4b5fd;
+    --sp-primary-ring: rgba(167, 139, 250, 0.28);
+    --sp-primary-light: #241a3d;
+    --sp-primary-border: #4c3a7a;
+    --sp-primary-text: #ddd6fe;
+    --sp-on-primary: #0a0a0a;
+    --sp-bg: #0a0a0a;
+    --sp-bg-subtle: #111111;
+    --sp-bg-muted: #1f1f1f;
+    --sp-canvas: #18181b;
+    --sp-border: #2a2a2a;
+    --sp-border-hover: #5c5c5c;
+    --sp-text-primary: #ededed;
+    --sp-text-secondary: #a3a3a3;
+    --sp-text-tertiary: #737373;
+    --sp-inverse: #ededed;
+    --sp-inverse-hover: #c8c8c8;
+    --sp-on-inverse: #0a0a0a;
+    --sp-focus: #ededed;
+    --sp-focus-ring: rgba(255, 255, 255, 0.14);
+    --sp-backdrop: rgba(0, 0, 0, 0.6);
+    --sp-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    --sp-shadow-md: 0 8px 24px -8px rgba(0, 0, 0, 0.7), 0 2px 6px -2px rgba(0, 0, 0, 0.5);
+    --sp-shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);
+    --sp-danger: #f87171;
+    --sp-danger-light: #2a1313;
+    --sp-danger-border: #7f1d1d;
+    --sp-danger-text: #fca5a5;
+    --sp-success: #4ade80;
+    --sp-success-light: #0e2316;
+    --sp-success-border: #14532d;
+    --sp-warning: #fbbf24;
+    --sp-warning-light: #261c07;
+    --sp-warning-border: #78350f;
+  }
+}
+
+/* Forzar el oscuro aunque el sistema esté en claro: mismos valores. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --sp-primary: #a78bfa;
+  --sp-primary-hover: #c4b5fd;
+  --sp-primary-ring: rgba(167, 139, 250, 0.28);
+  --sp-primary-light: #241a3d;
+  --sp-primary-border: #4c3a7a;
+  --sp-primary-text: #ddd6fe;
+  --sp-on-primary: #0a0a0a;
+  --sp-bg: #0a0a0a;
+  --sp-bg-subtle: #111111;
+  --sp-bg-muted: #1f1f1f;
+  --sp-canvas: #18181b;
+  --sp-border: #2a2a2a;
+  --sp-border-hover: #5c5c5c;
+  --sp-text-primary: #ededed;
+  --sp-text-secondary: #a3a3a3;
+  --sp-text-tertiary: #737373;
+  --sp-inverse: #ededed;
+  --sp-inverse-hover: #c8c8c8;
+  --sp-on-inverse: #0a0a0a;
+  --sp-focus: #ededed;
+  --sp-focus-ring: rgba(255, 255, 255, 0.14);
+  --sp-backdrop: rgba(0, 0, 0, 0.6);
+  --sp-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --sp-shadow-md: 0 8px 24px -8px rgba(0, 0, 0, 0.7), 0 2px 6px -2px rgba(0, 0, 0, 0.5);
+  --sp-shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);
+  --sp-danger: #f87171;
+  --sp-danger-light: #2a1313;
+  --sp-danger-border: #7f1d1d;
+  --sp-danger-text: #fca5a5;
+  --sp-success: #4ade80;
+  --sp-success-light: #0e2316;
+  --sp-success-border: #14532d;
+  --sp-warning: #fbbf24;
+  --sp-warning-light: #261c07;
+  --sp-warning-border: #78350f;
 }

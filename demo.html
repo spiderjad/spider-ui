@@ -22,6 +22,49 @@
   <h1 class="v-page-title">spider-ui</h1>
   <p class="v-page-subtitle">Componentes del sistema de diseño Spider.</p>
 
+  <h2 class="demo-h">Modo</h2>
+  <div class="demo-row">
+    <button class="v-btn-secondary" onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'">Cambiar claro / oscuro</button>
+  </div>
+
+  <h2 class="demo-h">Barra de herramientas (1.1.0)</h2>
+  <div class="v-card" style="overflow:hidden; margin-bottom:24px">
+    <div class="v-toolbar" role="toolbar" aria-label="Demo">
+      <div class="v-toolbar__group">
+        <button class="v-btn-ghost">Abrir</button>
+        <button class="v-btn-ghost" aria-expanded="true">Exportar ▾</button>
+      </div>
+      <span class="v-toolbar__sep" aria-hidden="true"></span>
+      <div class="v-segmented" role="tablist">
+        <button class="v-segmented__item" role="tab" aria-selected="true">Organizar</button>
+        <button class="v-segmented__item" role="tab" aria-selected="false">Leer</button>
+      </div>
+      <span class="v-toolbar__sep" aria-hidden="true"></span>
+      <button class="v-btn-icon" aria-label="Deshacer">↶</button>
+      <button class="v-btn-icon" aria-label="Rehacer" disabled>↷</button>
+      <span class="v-toolbar__spacer"></span>
+      <button class="v-btn-primary">Guardar</button>
+    </div>
+    <div class="v-toolbar v-toolbar--sub" role="toolbar" aria-label="Herramientas">
+      <button class="v-btn-ghost" aria-pressed="true">Seleccionar</button>
+      <button class="v-btn-ghost">Resaltar</button>
+      <button class="v-btn-ghost">Lápiz</button>
+      <span class="v-toolbar__spacer"></span>
+      <kbd class="v-kbd">Ctrl</kbd><kbd class="v-kbd">F</kbd>
+    </div>
+    <div style="background:var(--sp-canvas); height:120px; display:grid; place-items:center; color:var(--sp-text-secondary); font-size:13px">--sp-canvas</div>
+  </div>
+
+  <h2 class="demo-h">Menú</h2>
+  <div class="demo-row">
+    <div class="v-menu" role="menu" aria-label="Demo" style="width:300px">
+      <button class="v-menu__item" role="menuitem"><span class="v-menu__label">Documento de Word <span class="v-menu__desc">Texto editable con títulos y tablas</span></span></button>
+      <button class="v-menu__item" role="menuitem" data-highlighted><span class="v-menu__label">Libro de Excel</span><span class="v-menu__hint">Ctrl+E</span></button>
+      <div class="v-menu__sep" role="separator"></div>
+      <button class="v-menu__item" role="menuitem" aria-disabled="true"><span class="v-menu__label">Desactivado</span></button>
+    </div>
+  </div>
+
   <h2 class="demo-h">Botones</h2>
   <div class="demo-row">
     <button class="v-btn-primary">Guardar</button>

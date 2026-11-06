@@ -6,8 +6,9 @@ proyectos reciben las reglas nuevas sin copiar nada.
 ## 1. Instalación en un proyecto
 
 ```bash
-npm install github:seecorpdesarrollos/spider-ui
+npm install github:spiderjad/spider-ui#<commit>
 ```
+Fijar el commit (`#<sha>`) deja la versión exacta en cada instalación. Para actualizar, el mismo comando con el commit nuevo.
 
 Importar UNA vez en el entry del frontend (por ejemplo `src/main.jsx`, `src/main.ts`, `src/renderer.js`):
 
@@ -34,7 +35,11 @@ Tailwind v3: `presets: [require('spider-ui/tailwind-preset')]` en `tailwind.conf
 Tailwind v4: `@import "spider-ui/tailwind-v4.css";` después de `@import "tailwindcss";`.
 Con eso existen `bg-spider-primary`, `text-spider-muted`, `border-spider-border`, `rounded-spider`, etc.
 
-Para actualizar: volver a ejecutar el mismo `npm install github:...`.
+Para actualizar: el mismo `npm install github:spiderjad/spider-ui#<commit nuevo>`.
+
+**Modo oscuro** (1.1.0): los tokens cambian solos con el del sistema (`prefers-color-scheme`). Para forzar uno, `data-theme="dark"` o `data-theme="light"` en `<html>`. Todo lo visual debe salir de `var(--sp-*)`: así funciona en los dos modos sin hacer nada más. Las pantallas `auth-*` se ven igual en los dos (fondo oscuro y tarjeta blanca).
+
+Tokens nuevos en 1.1.0: `--sp-bg-muted` (hover, fondo de controles), `--sp-canvas` (zona de trabajo bajo documentos), `--sp-inverse` / `--sp-on-inverse` / `--sp-inverse-hover` (botón primario), `--sp-on-primary`, `--sp-focus` / `--sp-focus-ring`, `--sp-backdrop`, `--sp-shadow-md`, `--sp-primary-border`, `--sp-danger-text` y los `--sp-*-border` de los estados.
 
 ## 2. Qué estilo usar en cada pantalla
 
@@ -77,6 +82,40 @@ Envolver la raíz de la app con `class="v-app"` (fuente, color y box-sizing).
   </footer>
 </section>
 ```
+
+**Barras de herramientas** (1.1.0)
+```html
+<div class="v-toolbar" role="toolbar" aria-label="Acciones">
+  <div class="v-toolbar__group">
+    <button class="v-btn-ghost"><svg/>Abrir</button>
+    <button class="v-btn-icon" aria-label="Deshacer"><svg/></button>
+  </div>
+  <span class="v-toolbar__sep" aria-hidden="true"></span>
+  <span class="v-toolbar__spacer"></span>
+  <button class="v-btn-primary">Guardar</button>
+</div>
+```
+- `v-btn-ghost` (icono + texto) y `v-btn-icon` (solo icono, con `aria-label`): sin fondo; `aria-pressed="true"` = herramienta activa; `aria-expanded="true"` = su menú está abierto. Con `v-btn--sm`, 28 px.
+- `v-toolbar--sub`: barra secundaria (opciones de la herramienta), fondo sutil.
+
+**Control segmentado** (cambiar de vista): `<div class="v-segmented" role="tablist">` con `<button class="v-segmented__item" role="tab" aria-selected="true">`.
+
+**Menú desplegable**
+```html
+<div class="v-menu" role="menu" aria-label="Exportar">
+  <button class="v-menu__item" role="menuitem"><svg/>
+    <span class="v-menu__label">Word <span class="v-menu__desc">Texto editable</span></span>
+    <span class="v-menu__hint">Ctrl+S</span>
+  </button>
+  <div class="v-menu__sep" role="separator"></div>
+</div>
+```
+Elemento resaltado con el teclado: `data-highlighted` o `:focus-visible`. Desactivado: `aria-disabled="true"`.
+
+**Modal**: `<dialog class="v-app v-dialog">` abierto con `showModal()` (atrapa el foco, cierra con Esc), con `v-card__header`, `v-card__body` (hace scroll) y `v-card__footer` dentro (o dentro de un `<form>`). `v-dialog--wide`: 720 px.
+
+**Tecla**: `<kbd class="v-kbd">Ctrl</kbd>`.
+
 
 **Tabla**: `<div class="v-table-wrap"><table class="v-table">…</table></div>`
 
