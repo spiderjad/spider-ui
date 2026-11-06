@@ -1,0 +1,9 @@
+/*
+ * spider-ui · punto de entrada.
+ * Importar UNA vez en el entry del proyecto:  import 'spider-ui/spider-ui.css'
+ * Si un proyecto no tiene pantallas de login, puede importar solo
+ * tokens.css + panel.css.
+ */
+@import './tokens.css';
+@import './panel.css';
+@import './auth.css';

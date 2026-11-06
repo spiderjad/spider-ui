@@ -1,0 +1,185 @@
+/*
+ * spider-ui · panel (estilo Vercel, de /admin de Spidercitas)
+ * Interfaces de aplicación: formularios, tablas, tarjetas, acciones.
+ * Monocromo; el violeta de marca solo para badges/estados "marca".
+ */
+
+.v-app,
+.v-app *,
+.v-app *::before,
+.v-app *::after { box-sizing: border-box; }
+
+.v-app {
+  font-family: var(--sp-font);
+  color: var(--sp-text-primary);
+  background: var(--sp-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Campos ───────────────────────────────────────────────────── */
+
+.v-field { margin-bottom: 16px; }
+.v-label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 500; color: var(--sp-text-primary); }
+.v-help  { margin: 6px 0 0; font-size: 12px; color: var(--sp-text-secondary); }
+.v-error { margin: 6px 0 0; font-size: 12px; color: var(--sp-danger); }
+
+.v-input {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-family: var(--sp-font);
+  color: var(--sp-text-primary);
+  background: var(--sp-bg);
+  border: 1px solid var(--sp-border);
+  border-radius: var(--sp-radius);
+  outline: none;
+  transition: border-color var(--sp-ease), box-shadow var(--sp-ease);
+}
+.v-input:hover { border-color: var(--sp-border-hover); }
+.v-input:focus { border-color: #000; }
+.v-input:focus-visible { box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08); }
+.v-input::placeholder { color: var(--sp-text-tertiary); }
+.v-input option { background: var(--sp-bg); color: var(--sp-text-primary); }
+.v-input[aria-invalid="true"] { border-color: var(--sp-danger); }
+.v-input:disabled { background: var(--sp-bg-subtle); color: var(--sp-text-secondary); cursor: not-allowed; }
+textarea.v-input { min-height: 88px; resize: vertical; line-height: 1.5; }
+
+/* ── Botones ──────────────────────────────────────────────────── */
+
+.v-btn-primary,
+.v-btn-secondary,
+.v-btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--sp-font);
+  line-height: 1.2;
+  border-radius: var(--sp-radius);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background var(--sp-ease), border-color var(--sp-ease), opacity var(--sp-ease);
+}
+
+/* Primario: negro. Una sola acción principal por vista. */
+.v-btn-primary { color: #fff; background: #000; border: 1px solid #000; }
+.v-btn-primary:hover:not(:disabled) { background: #333; }
+
+/* Secundario: blanco con borde. */
+.v-btn-secondary { color: var(--sp-text-primary); background: var(--sp-bg); border: 1px solid var(--sp-border); }
+.v-btn-secondary:hover:not(:disabled) { border-color: var(--sp-border-hover); }
+
+/* Peligro: solo acciones destructivas. */
+.v-btn-danger { color: var(--sp-danger); background: var(--sp-danger-light); border: 1px solid var(--sp-danger); }
+.v-btn-danger:hover:not(:disabled) { opacity: 0.85; }
+
+.v-btn-primary:focus-visible,
+.v-btn-secondary:focus-visible,
+.v-btn-danger:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
+
+.v-btn-primary:disabled,
+.v-btn-secondary:disabled,
+.v-btn-danger:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.v-btn--sm { padding: 5px 10px; font-size: 12px; }
+.v-btn--block { width: 100%; }
+
+/* ── Badges de estado ─────────────────────────────────────────── */
+
+.v-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: var(--sp-bg-subtle);
+  color: var(--sp-text-secondary);
+  border: 1px solid var(--sp-border);
+}
+.v-badge--success { background: var(--sp-success-light); color: var(--sp-success); border-color: #bbf7d0; }
+.v-badge--warning { background: var(--sp-warning-light); color: var(--sp-warning); border-color: #fde68a; }
+.v-badge--danger  { background: var(--sp-danger-light);  color: var(--sp-danger);  border-color: #fecaca; }
+.v-badge--brand   { background: var(--sp-primary-light); color: var(--sp-primary-text); border-color: #ddd6fe; }
+
+/* ── Tarjetas ─────────────────────────────────────────────────── */
+
+.v-card {
+  background: var(--sp-bg);
+  border: 1px solid var(--sp-border);
+  border-radius: var(--sp-radius-lg);
+  box-shadow: var(--sp-shadow);
+}
+.v-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--sp-border);
+}
+.v-card__title { margin: 0; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+.v-card__body { padding: 20px; }
+.v-card__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 20px;
+  border-top: 1px solid var(--sp-border);
+  background: var(--sp-bg-subtle);
+  border-radius: 0 0 var(--sp-radius-lg) var(--sp-radius-lg);
+}
+
+/* ── Tabla ────────────────────────────────────────────────────── */
+
+.v-table-wrap { overflow-x: auto; }
+.v-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.v-table th {
+  text-align: left;
+  padding: 10px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--sp-text-secondary);
+  background: var(--sp-bg-subtle);
+  border-bottom: 1px solid var(--sp-border);
+  white-space: nowrap;
+}
+.v-table td { padding: 12px; border-bottom: 1px solid var(--sp-border); color: var(--sp-text-primary); }
+.v-table tbody tr:hover { background: var(--sp-bg-subtle); }
+.v-table tbody tr:last-child td { border-bottom: none; }
+
+/* ── Avisos ───────────────────────────────────────────────────── */
+
+.v-banner {
+  padding: 10px 12px;
+  border-radius: var(--sp-radius);
+  font-size: 13px;
+  line-height: 1.45;
+  background: var(--sp-bg-subtle);
+  border: 1px solid var(--sp-border);
+  color: var(--sp-text-primary);
+}
+.v-banner--danger  { background: var(--sp-danger-light);  border-color: #fecaca; color: #b91c1c; }
+.v-banner--success { background: var(--sp-success-light); border-color: #bbf7d0; color: var(--sp-success); }
+.v-banner--warning { background: var(--sp-warning-light); border-color: #fde68a; color: var(--sp-warning); }
+.v-banner--info    { background: var(--sp-primary-light); border-color: #ddd6fe; color: var(--sp-primary-text); }
+
+/* ── Tipografía de página ─────────────────────────────────────── */
+
+.v-page-title { margin: 0 0 4px; font-size: 24px; font-weight: 600; letter-spacing: -0.02em; }
+.v-page-subtitle { margin: 0 0 24px; font-size: 14px; color: var(--sp-text-secondary); }
+.v-divider { border: none; border-top: 1px solid var(--sp-border); margin: 24px 0; }
+
+/* ── Utilidades ───────────────────────────────────────────────── */
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v-input, .v-btn-primary, .v-btn-secondary, .v-btn-danger { transition: none; }
+}

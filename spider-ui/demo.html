@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>spider-ui · demo</title>
+<link rel="stylesheet" href="spider-ui.css">
+<style>
+  /* Solo maquetación de la demo */
+  body { margin: 0; }
+  .demo { max-width: 920px; margin: 0 auto; padding: 40px 20px; }
+  .demo-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 24px; }
+  .demo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .demo h2.demo-h { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--sp-text-secondary); margin: 32px 0 12px; }
+  .demo-auth { position: relative; height: 640px; overflow: hidden; border-radius: var(--sp-radius-lg); transform: translateZ(0); }
+  .demo-auth .auth-bg { position: absolute; }
+  .demo-auth .auth-page { min-height: 100%; height: 100%; }
+</style>
+</head>
+<body class="v-app">
+<div class="demo">
+  <h1 class="v-page-title">spider-ui</h1>
+  <p class="v-page-subtitle">Componentes del sistema de diseño Spider.</p>
+
+  <h2 class="demo-h">Botones</h2>
+  <div class="demo-row">
+    <button class="v-btn-primary">Guardar</button>
+    <button class="v-btn-secondary">Cancelar</button>
+    <button class="v-btn-danger">Eliminar</button>
+    <button class="v-btn-primary v-btn--sm">Pequeño</button>
+    <button class="v-btn-primary" disabled>Deshabilitado</button>
+  </div>
+
+  <h2 class="demo-h">Badges y avisos</h2>
+  <div class="demo-row">
+    <span class="v-badge">Borrador</span>
+    <span class="v-badge v-badge--success">Activo</span>
+    <span class="v-badge v-badge--warning">Pendiente</span>
+    <span class="v-badge v-badge--danger">Error</span>
+    <span class="v-badge v-badge--brand">Nuevo</span>
+  </div>
+  <div class="demo-grid">
+    <div class="v-banner v-banner--info">Información para el usuario.</div>
+    <div class="v-banner v-banner--success">Cambios guardados.</div>
+    <div class="v-banner v-banner--warning">Revisá estos datos.</div>
+    <div class="v-banner v-banner--danger" role="alert">No se pudo guardar.</div>
+  </div>
+
+  <h2 class="demo-h">Tarjeta con formulario</h2>
+  <section class="v-card">
+    <header class="v-card__header"><h3 class="v-card__title">Datos del documento</h3><span class="v-badge v-badge--success">Activo</span></header>
+    <div class="v-card__body demo-grid">
+      <div class="v-field">
+        <label class="v-label" for="d1">Nombre</label>
+        <input class="v-input" id="d1" placeholder="Contrato 2026">
+        <p class="v-help">Se muestra en el listado.</p>
+      </div>
+      <div class="v-field">
+        <label class="v-label" for="d2">Email</label>
+        <input class="v-input" id="d2" aria-invalid="true" value="diego@">
+        <p class="v-error">El email no es válido.</p>
+      </div>
+      <div class="v-field">
+        <label class="v-label" for="d3">Tipo</label>
+        <select class="v-input" id="d3"><option>PDF</option><option>Imagen</option></select>
+      </div>
+    </div>
+    <footer class="v-card__footer">
+      <button class="v-btn-secondary">Cancelar</button>
+      <button class="v-btn-primary">Guardar</button>
+    </footer>
+  </section>
+
+  <h2 class="demo-h">Tabla</h2>
+  <div class="v-card">
+    <div class="v-table-wrap">
+      <table class="v-table">
+        <thead><tr><th>Archivo</th><th>Páginas</th><th>Estado</th><th></th></tr></thead>
+        <tbody>
+          <tr><td>factura-octubre.pdf</td><td>3</td><td><span class="v-badge v-badge--success">Firmado</span></td><td><button class="v-btn-secondary v-btn--sm">Abrir</button></td></tr>
+          <tr><td>contrato-stef.pdf</td><td>12</td><td><span class="v-badge v-badge--warning">Pendiente</span></td><td><button class="v-btn-secondary v-btn--sm">Abrir</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h2 class="demo-h">Pantalla de acceso</h2>
+  <div class="demo-auth">
+    <div class="auth-page">
+      <div class="auth-bg" aria-hidden="true">
+        <div class="auth-blob auth-blob--violeta"></div>
+        <div class="auth-blob auth-blob--ambar"></div>
+        <div class="auth-blob auth-blob--oscuro"></div>
+        <div class="auth-blob auth-blob--rosa"></div>
+      </div>
+      <main class="auth-card">
+        <header class="auth-header">
+          <span class="auth-badge">DEMO</span>
+          <h1 class="auth-title">Iniciá sesión</h1>
+          <p class="auth-subtitle">Accedé a tu cuenta.</p>
+        </header>
+        <div class="auth-field">
+          <label class="auth-label" for="a1">Email</label>
+          <input class="auth-input" id="a1" type="email" placeholder="tu@empresa.com">
+        </div>
+        <div class="auth-field">
+          <label class="auth-label" for="a2">Contraseña</label>
+          <input class="auth-input" id="a2" type="password">
+        </div>
+        <button class="auth-btn">Entrar</button>
+        <div class="auth-below-btn"><button class="auth-link">¿Olvidaste tu contraseña?</button></div>
+      </main>
+    </div>
+  </div>
+</div>
+</body>
+</html>

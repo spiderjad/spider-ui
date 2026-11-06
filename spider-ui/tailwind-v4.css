@@ -1,0 +1,30 @@
+/*
+ * spider-ui · tema para Tailwind v4
+ *   @import "tailwindcss";
+ *   @import "spider-ui/spider-ui.css";
+ *   @import "spider-ui/tailwind-v4.css";
+ */
+@theme inline {
+  --font-sans: var(--sp-font);
+  --color-spider-primary: var(--sp-primary);
+  --color-spider-primary-hover: var(--sp-primary-hover);
+  --color-spider-primary-light: var(--sp-primary-light);
+  --color-spider-accent: var(--sp-accent);
+  --color-spider-bg: var(--sp-bg);
+  --color-spider-bg-subtle: var(--sp-bg-subtle);
+  --color-spider-border: var(--sp-border);
+  --color-spider-border-hover: var(--sp-border-hover);
+  --color-spider-text: var(--sp-text-primary);
+  --color-spider-muted: var(--sp-text-secondary);
+  --color-spider-faint: var(--sp-text-tertiary);
+  --color-spider-danger: var(--sp-danger);
+  --color-spider-danger-light: var(--sp-danger-light);
+  --color-spider-success: var(--sp-success);
+  --color-spider-success-light: var(--sp-success-light);
+  --color-spider-warning: var(--sp-warning);
+  --color-spider-warning-light: var(--sp-warning-light);
+  --radius-spider: var(--sp-radius);
+  --radius-spider-lg: var(--sp-radius-lg);
+  --shadow-spider: var(--sp-shadow);
+  --shadow-spider-lg: var(--sp-shadow-lg);
+}

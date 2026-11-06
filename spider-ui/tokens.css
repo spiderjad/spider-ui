@@ -1,0 +1,45 @@
+/*
+ * spider-ui · tokens
+ * ÚNICA fuente de colores, tipografía, radios y sombras de todos los
+ * proyectos Spider. Para cambiar el estilo de todo: se cambia aquí,
+ * se sube una versión nueva y cada proyecto reinstala el paquete.
+ */
+:root {
+  /* ── Tipografía ─────────────────────────────────────────────── */
+  --sp-font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --sp-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* ── Marca (de las pantallas de acceso de Spidercitas) ──────── */
+  --sp-primary: #7c3aed;
+  --sp-primary-hover: #6d28d9;
+  --sp-primary-ring: rgba(124, 58, 237, 0.18);
+  --sp-primary-light: #f5f3ff;
+  --sp-primary-text: #5b21b6;
+  --sp-accent: #f59e0b;            /* encima siempre texto oscuro (AA) */
+
+  /* ── Panel (estilo Vercel) ──────────────────────────────────────
+     PROVISIONAL: valores aproximados. Reemplazar por los reales de
+     Spidercitas (buscar "--text-primary:" en su código). */
+  --sp-bg: #ffffff;
+  --sp-bg-subtle: #fafafa;
+  --sp-border: #eaeaea;
+  --sp-border-hover: #a3a3a3;
+  --sp-text-primary: #0a0a0a;
+  --sp-text-secondary: #525252;    /* AA sobre blanco */
+  --sp-text-tertiary: #8f8f8f;     /* solo placeholders y decoración */
+  --sp-radius: 6px;
+  --sp-radius-lg: 10px;
+  --sp-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --sp-shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.05);
+
+  /* ── Estados ────────────────────────────────────────────────── */
+  --sp-danger: #dc2626;            /* texto y bordes: #ef4444 no llega a AA */
+  --sp-danger-light: #fef2f2;
+  --sp-success: #15803d;
+  --sp-success-light: #f0fdf4;
+  --sp-warning: #92400e;
+  --sp-warning-light: #fffbeb;
+
+  /* ── Movimiento ─────────────────────────────────────────────── */
+  --sp-ease: 150ms ease;
+}

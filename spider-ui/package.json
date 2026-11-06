@@ -1,0 +1,29 @@
+{
+  "name": "spider-ui",
+  "version": "1.0.0",
+  "description": "Sistema de diseño Spider (estilo Spidercitas): tokens, componentes del panel (v-*) y pantallas de acceso (auth-*).",
+  "private": true,
+  "style": "spider-ui.css",
+  "files": [
+    "spider-ui.css",
+    "tokens.css",
+    "panel.css",
+    "auth.css",
+    "tailwind-preset.js",
+    "tailwind-v4.css",
+    "GUIDE.md",
+    "demo.html"
+  ],
+  "exports": {
+    ".": "./spider-ui.css",
+    "./spider-ui.css": "./spider-ui.css",
+    "./tokens.css": "./tokens.css",
+    "./panel.css": "./panel.css",
+    "./auth.css": "./auth.css",
+    "./tailwind-preset": "./tailwind-preset.js",
+    "./tailwind-v4.css": "./tailwind-v4.css",
+    "./GUIDE.md": "./GUIDE.md",
+    "./package.json": "./package.json"
+  },
+  "license": "UNLICENSED"
+}
