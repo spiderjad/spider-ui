@@ -367,6 +367,7 @@ textarea.v-input { min-height: 88px; resize: vertical; line-height: 1.5; }
   padding: 0 10px 0 12px;
   font: inherit;
   font-size: var(--sp-fs-base);
+  font-weight: 400;                 /* aunque esté dentro de un <label> (500) */
   text-align: left;
   color: var(--sp-text-primary);
   background: var(--sp-bg);
