@@ -41,6 +41,9 @@ Es la fuente de verdad: qué clases existen, la estructura HTML de cada componen
 ## Paso 4: Construir
 
 - Aplicación (listados, formularios, ajustes, editores) → clases `v-*`, con la raíz envuelta en `v-app`.
+- Marco de la app (rail de áreas, menú lateral, cabecera, barra inferior del teléfono) → las clases del marco
+  (`v-shell`, `v-rail`, `v-sidebar`, `v-nav-item`, `v-topbar`, `v-main`…), que copian a SpiderFolio. No armar un
+  menú propio. Tamaños de letra: `var(--sp-fs-*)`.
 - Login, registro, OTP o bienvenida → clases `auth-*` con la estructura completa de la guía.
 - Colores, radios, sombras y tipografía: **solo** `var(--sp-*)` o las clases `spider-*` de Tailwind. Nunca hex sueltos ni `bg-blue-500` / `text-gray-700`.
 - Para el layout (flex, grid, márgenes) podés usar CSS propio o utilidades de Tailwind.

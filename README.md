@@ -6,11 +6,13 @@ Sistema de diseño compartido de los proyectos Spider (Spidercitas, SpiderPDF, S
 |---|---|
 | `tokens.css` | Colores, tipografía, radios y sombras (`--sp-*`). **Aquí se cambia el estilo de todo.** |
 | `panel.css` | Componentes de aplicación `v-*` (estilo Vercel). |
+| `shell.css` | Marco de la app: rail de áreas, menú lateral, cabecera, contenido y barra inferior (el de SpiderFolio). |
 | `auth.css` | Pantallas de acceso `auth-*` (estilo Stripe, violeta y ámbar). |
-| `spider-ui.css` | Importa los tres anteriores. |
+| `spider-ui.css` | Importa los cuatro anteriores. |
 | `tailwind-preset.js` / `tailwind-v4.css` | Colores `spider-*` para Tailwind. |
 | `GUIDE.md` | Cómo usarlo (Claude Code la lee desde `node_modules`). |
 | `demo.html` | Vista de todos los componentes. Abrir en el navegador. |
+| `demo-marco.html` | El marco de la app completo (rail, menú, cabecera), como SpiderFolio. |
 
 ## Usar en un proyecto
 

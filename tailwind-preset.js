@@ -41,6 +41,16 @@ module.exports = {
           'warning-light': 'var(--sp-warning-light)',
         },
       },
+      // 1.2.0: la escala de letra de SpiderFolio (text-spider-sm, text-spider-base…).
+      fontSize: {
+        'spider-2xs': 'var(--sp-fs-2xs)',
+        'spider-xs': 'var(--sp-fs-xs)',
+        'spider-sm': ['var(--sp-fs-sm)', 'var(--sp-lh-sm)'],
+        'spider-base': ['var(--sp-fs-base)', 'var(--sp-lh-base)'],
+        'spider-lg': 'var(--sp-fs-lg)',
+        'spider-xl': 'var(--sp-fs-xl)',
+        'spider-prose': ['var(--sp-fs-prose)', 'var(--sp-lh-prose)'],
+      },
       borderRadius: {
         spider: 'var(--sp-radius)',
         'spider-lg': 'var(--sp-radius-lg)',
