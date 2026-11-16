@@ -52,11 +52,24 @@ Tokens nuevos en 1.1.0: `--sp-bg-muted` (hover, fondo de controles), `--sp-canva
 **Cambios en 1.3.0:** selector moderno (`select.js` + `v-select`), en lugar del `<select>` nativo. Ver «Selector»
 en la sección 3.
 
+**Cambios en 1.4.0** (el estilo de phpMyFlow):
+- `data.css`: apps de datos (cabecera `v-appbar`, pestañas `v-tabs`, explorador `v-explorer`, tabla `v-grid`, barra
+  de selección `v-selectionbar`, interruptor `v-switch`). Ver la sección 5 y `demo-datos.html`.
+- `themes.css`: paletas con `data-theme="graphite|slate|spider|forest|contrast"` en `<html>`. Sin atributo, la de
+  siempre (Monocromo). Esquinas con `data-radius="sharp|round"` y filas más altas con `data-density="comfortable"`.
+- **Modo:** `data-mode="dark|light"` fuerza el modo (`data-theme="dark|light"` sigue funcionando, pero `data-theme`
+  queda para la paleta). `data-mode-scope="light|dark"` aplica un modo solo a un elemento y lo que tiene dentro.
+- **`--sp-text-tertiary` pasa a AA:** `#737373` en claro (antes `#8f8f8f`) y `#8a8a8a` en oscuro (antes `#737373`).
+  Ya sirve para pistas y contadores, no solo para placeholders (sobre `--sp-bg-muted` todavía no: ahí, secundario).
+- `v-segmented` también marca `aria-checked="true"` (grupo de radios), token `--sp-row-dense` (28 px) y utilidades
+  `v-mono`, `v-page-meta` y `v-btn-ghost--danger`.
+
 ## 2. Qué estilo usar en cada pantalla
 
 | Pantalla | Sistema | Clases |
 |---|---|---|
 | La aplicación en sí (listados, formularios, ajustes, dashboards, editores) | Panel estilo Vercel, monocromo | `v-*` |
+| Herramienta de datos: administrador de bases, catálogos o registros con muchas filas | Apps de datos (phpMyFlow) | `v-*` + `data.css` |
 | Login, registro, recuperar contraseña, código OTP, pantalla de bienvenida | Acceso estilo Stripe, violeta y ámbar | `auth-*` |
 
 No mezclar: nada de `auth-*` dentro del panel ni violeta en los botones del panel.
@@ -258,7 +271,130 @@ número sobre un ícono) en `--sp-primary`. Todo lo demás, gris.
 - Navegación: `aria-current="page"` en el ítem actual (rail, menú y barra inferior).
 - Íconos: Lucide con trazo 1,75.
 
-## 5. Pantallas de acceso (`auth-*`)
+## 5. Apps de datos (1.4.0, `data.css`)
+
+El estilo de phpMyFlow: monocromo, compacto, nombres técnicos en monoespaciada y números alineados a la derecha.
+Para herramientas donde se trabaja con muchas filas. Ver `demo-datos.html`.
+
+```
++- v-appbar ------------------------------------------------------------------------+
+| phpMyFlow / tienda    Vista general  Datos  Estructura  SQL            acciones   |
++- v-explorer -------+--------------------------------------------------------------+
+| [tienda     v] [...]| título + v-page-meta                         botones          |
+| [Buscar tabla] [=]  | [filtro]  v-selectionbar                                      |
+| ven_ 4     FILAS v  | v-grid-wrap > v-grid                                          |
+|   pedidos    1,2 M  |                                                               |
++--------------------+--------------------------------------------------------------+
+```
+
+| Parte | Medida | Letra |
+|---|---|---|
+| Cabecera `v-appbar` | 48 px, borde inferior | marca 14 semibold; ruta en `v-mono`; usuario 12 mono gris |
+| Pestañas `v-tabs` | toda la altura de la cabecera (40 px sueltas) | 13 medium; la actual subrayada con `--sp-text-primary` |
+| Explorador `v-explorer` | 248 px, fondo `--sp-bg-subtle` | filas de 28 px (`--sp-row-dense`), nombres 12,5 mono, cifra 11 |
+| Tabla `v-grid` | filas de 28 px, cabecera fija de 34 | celdas 12,5 mono, cabecera 12 semibold Inter |
+
+**Cabecera y pestañas**
+```html
+<header class="v-appbar">
+  <nav class="v-appbar__crumbs" aria-label="Ubicación">
+    <strong class="v-appbar__brand">phpMyFlow</strong><span class="v-appbar__sep" aria-hidden="true">/</span>
+    <a class="v-appbar__crumb v-mono" href="…">tienda</a>
+  </nav>
+  <nav class="v-tabs" aria-label="Vistas">
+    <a class="v-tabs__item" href="…" aria-current="page">Vista general</a>
+    <a class="v-tabs__item" aria-disabled="true">Relaciones</a>
+  </nav>
+  <div class="v-appbar__actions"><span class="v-appbar__user">root@127.0.0.1</span>…</div>
+</header>
+```
+`v-tabs` cambia de página o de vista (`aria-current="page"`). Si cambia un panel dentro de la página, `role="tablist"`
+y `role="tab"` con `aria-selected`. Para elegir entre 2-4 opciones de una misma vista, `v-segmented`.
+
+**Explorador** (el menú lateral de objetos: tablas, documentos, registros). Reglas, para que no confunda:
+1. Arriba **solo dos filas**: el selector de lo que se está mirando (con su menú `⋯`) y el buscador (con el botón de
+   opciones). Ordenar, agrupar y mostrar ocultos van en ese menú de opciones (`menuitemradio` / `menuitemcheckbox`),
+   no como casillas sueltas sobre la lista.
+2. **Una sola cifra por fila**, y la cabecera del grupo dice cuál es (`v-explorer__metric`: «Filas ↓»). La flecha
+   indica por qué está ordenada la lista. La cifra, corta («1,2 M», «402 mil», con `Intl.NumberFormat` compacto); la
+   exacta, en el `title`.
+3. Si los nombres comparten **prefijos** (`sap_`, `cfg_`, `wp_`), un grupo por prefijo (`v-explorer__title v-mono`)
+   y el nombre sin el prefijo. No pintar el prefijo en gris dentro del nombre.
+4. **Grupos vacíos fuera.** Sin nada elegido, `v-explorer__empty` («Elige una base de datos») en vez de grupos en cero.
+5. La fila actual lleva `aria-current="page"`: fondo de tarjeta con borde (como el segmentado), no un bloque negro.
+
+```html
+<aside class="v-explorer" aria-label="Base de datos">
+  <div class="v-explorer__top">
+    <div class="v-explorer__row">
+      <select class="v-input" aria-label="Base de datos" data-v-select="sm">…</select>
+      <button class="v-btn-icon v-btn--sm" aria-label="Acciones de tienda" aria-haspopup="menu"><svg/></button>
+    </div>
+    <div class="v-explorer__row">
+      <label class="v-explorer__search"><svg/><input type="search" placeholder="Buscar tabla" aria-label="Buscar tabla"></label>
+      <button class="v-btn-icon v-btn--sm" aria-label="Opciones de la lista" aria-haspopup="menu"><svg/></button>
+    </div>
+  </div>
+  <nav class="v-explorer__list" aria-label="Tablas">
+    <section class="v-explorer__group">
+      <h3 class="v-explorer__head"><button aria-expanded="true"><svg class="v-explorer__chev"/>
+        <span class="v-explorer__title v-mono">ven_</span><span class="v-explorer__count">4</span>
+        <span class="v-explorer__metric">Filas ↓</span></button></h3>
+      <div class="v-explorer__item">
+        <a class="v-explorer__link" href="…" aria-current="page" title="ven_pedidos · ~1.204.388 filas">
+          <svg class="v-explorer__icon"/><span class="v-explorer__name">pedidos</span><span class="v-explorer__value">1,2 M</span></a>
+        <button class="v-explorer__action" aria-pressed="false" aria-label="Fijar ven_pedidos"><svg/></button>
+      </div>
+    </section>
+  </nav>
+</aside>
+```
+- Grupo que no se pliega (por ejemplo «Fijadas»): `<h3 class="v-explorer__head"><span>Fijadas</span></h3>`.
+- Coincidencias de la búsqueda: `<mark>` dentro de `v-explorer__name`.
+- Tamaño relativo: `<span class="v-explorer__bar" style="width: 40%">` dentro de `v-explorer__item`.
+- Sin `v-explorer__action` cuando la fila no tiene acción. En pantallas táctiles la acción se ve siempre.
+
+**Tabla de datos**
+```html
+<div class="v-grid-wrap">
+  <table class="v-grid">
+    <thead><tr>
+      <th class="v-grid__check"><input type="checkbox" aria-label="Seleccionar todas"></th>
+      <th aria-sort="ascending"><button class="v-grid__sort">Nombre</button></th>
+      <th class="v-grid__num"><button class="v-grid__sort">Filas</button></th>
+    </tr></thead>
+    <tbody>
+      <tr aria-selected="true"><td class="v-grid__check">…</td><td><a class="v-grid__link" href="…">ven_pedidos</a></td>
+        <td class="v-grid__num">~1.204.388</td></tr>
+    </tbody>
+  </table>
+</div>
+```
+`v-grid__num` (derecha, cifras tabulares), `v-grid__muted`, `v-grid__null` (vacío / NULL, cursiva gris),
+`v-grid--lines` (líneas verticales, como una hoja de cálculo). La flecha de orden sale sola de `aria-sort`.
+`.v-table` (sección 3) sigue siendo la tabla cómoda de un panel de administración.
+
+**Barra de selección**: sin nada marcado, un aviso de qué se puede hacer, **no** una fila de botones grises.
+```html
+<p class="v-selectionbar v-selectionbar--idle">Marca tablas para exportarlas, vaciarlas o borrarlas.</p>
+<div class="v-selectionbar" role="toolbar" aria-label="Acciones sobre la selección">
+  <span class="v-selectionbar__count" aria-live="polite">3 seleccionadas</span>
+  <button class="v-btn-ghost v-btn--sm">Exportar</button>
+  <button class="v-btn-ghost v-btn--sm v-btn-ghost--danger">Borrar…</button>
+  <button class="v-btn-ghost v-btn--sm v-selectionbar__clear">Quitar selección</button>
+</div>
+```
+
+**Interruptor**: `<button class="v-switch" role="switch" aria-checked="true" aria-label="Activo"></button>`
+(sí/no en filas densas y ajustes que se aplican al instante; en un formulario que se envía, una casilla).
+
+**Paletas** (`themes.css`): `data-theme` en `<html>` con `graphite` (Grafito), `slate` (Pizarra), `spider`,
+`forest` (Bosque) o `contrast` (Alto contraste); el modo, con `data-mode` o el del sistema. Para mostrar una paleta
+en una parte de la página (tarjetas para elegir tema): `data-preview-theme="slate" data-mode-scope="dark"`.
+Si la app guarda el tema en `localStorage`, ponerlo en `<html>` con un `<script>` en línea dentro de `<head>`
+(antes de pintar), para que no parpadee.
+
+## 6. Pantallas de acceso (`auth-*`)
 
 Estructura obligatoria:
 
@@ -290,7 +426,7 @@ Estructura obligatoria:
 
 Extras: `auth-card--wide` + `auth-grid` (formularios largos de 2 columnas), `auth-input--otp`, `auth-input-wrap` + `auth-eye` (mostrar contraseña), `auth-banner(--success|--info)`, `auth-badge`, `auth-link`, `auth-divider`, `auth-alt`, `auth-check`, `auth-spinner`, `auth-card--shake` (error), `<dialog class="auth-modal">`, `auth-footer`.
 
-## 6. Reglas
+## 7. Reglas
 
 1. **Reutilizar antes de crear.** Si existe una clase `v-*` o `auth-*`, usarla.
 2. **Nunca usar colores hex sueltos ni colores de la paleta de Tailwind** (`bg-blue-500`, `text-gray-700`…). Solo `var(--sp-*)` o las clases `spider-*` del preset.

@@ -44,6 +44,10 @@ Es la fuente de verdad: qué clases existen, la estructura HTML de cada componen
 - Marco de la app (rail de áreas, menú lateral, cabecera, barra inferior del teléfono) → las clases del marco
   (`v-shell`, `v-rail`, `v-sidebar`, `v-nav-item`, `v-topbar`, `v-main`…), que copian a SpiderFolio. No armar un
   menú propio. Tamaños de letra: `var(--sp-fs-*)`.
+- Herramienta de datos (administrador de bases, catálogos o registros con muchas filas) → las clases de `data.css`
+  (`v-appbar`, `v-tabs`, `v-explorer`, `v-grid`, `v-selectionbar`, `v-switch`), el estilo de phpMyFlow. El menú
+  lateral de objetos es `v-explorer` y tiene reglas propias (dos filas arriba, una cifra por fila, grupos por prefijo):
+  GUIDE.md, sección 5. Paletas: `data-theme="graphite|slate|spider|forest|contrast"`; modo: `data-mode`.
 - Selectores: **nunca un `<select>` nativo a la vista** (su lista la dibuja el sistema operativo). En HTML/Flask/
   Electron: `<select class="v-input" data-v-select>` + `select.js` del paquete (`data-v-select="sm"` en barras y
   tablas). En React: Select de Radix con las clases `v-select__boton`, `v-menu v-select__lista`, `v-menu__item`

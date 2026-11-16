@@ -5,10 +5,13 @@
  * se sube una versión nueva y cada proyecto reinstala el paquete.
  *
  * Modo oscuro (desde 1.1.0): sigue al sistema (prefers-color-scheme).
- * Para forzarlo, data-theme="dark" o data-theme="light" en <html>.
+ * Para forzarlo: data-mode="dark" o data-mode="light" en <html> (1.4.0). data-theme="dark|light" sigue
+ * funcionando, pero data-theme queda para el nombre de la paleta (themes.css).
+ * data-mode-scope="light|dark" aplica un modo a una parte de la página (vistas previas, pantallas de acceso).
  * Contraste AA comprobado en los dos modos (texto sobre --sp-bg, --sp-bg-subtle y --sp-canvas).
  */
-:root {
+:root,
+[data-mode-scope="light"] {
   color-scheme: light;
 
   /* ── Tipografía ─────────────────────────────────────────────── */
@@ -37,7 +40,7 @@
   --sp-border-hover: #a3a3a3;
   --sp-text-primary: #0a0a0a;
   --sp-text-secondary: #525252;    /* AA sobre blanco y sobre --sp-canvas */
-  --sp-text-tertiary: #8f8f8f;     /* solo placeholders y decoración */
+  --sp-text-tertiary: #737373;     /* 1.4.0: AA (4,7:1) para pistas y contadores; antes #8f8f8f */
   --sp-inverse: #000000;           /* botón primario (negro) */
   --sp-inverse-hover: #333333;
   --sp-on-inverse: #ffffff;
@@ -82,6 +85,7 @@
   --sp-menu-collapsed-width: 72px; /* menú contraído: solo iconos */
   --sp-header-height: 56px;        /* cabecera */
   --sp-row-height: 36px;           /* filas del menú */
+  --sp-row-dense: 28px;            /* 1.4.0: filas del explorador y de las tablas de datos (data-density="comfortable": 34px) */
   --sp-content-max: 1400px;        /* ancho máximo del contenido */
 
   /* ── Movimiento ─────────────────────────────────────────────── */
@@ -91,7 +95,7 @@
 
 /* Oscuro: el del sistema, salvo que la página fuerce el claro. */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
+  :root:not([data-theme="light"]):not([data-mode="light"]) {
     color-scheme: dark;
     --sp-primary: #a78bfa;
     --sp-primary-hover: #c4b5fd;
@@ -108,7 +112,7 @@
     --sp-border-hover: #5c5c5c;
     --sp-text-primary: #ededed;
     --sp-text-secondary: #a3a3a3;
-    --sp-text-tertiary: #737373;
+    --sp-text-tertiary: #8a8a8a;
     --sp-inverse: #ededed;
     --sp-inverse-hover: #c8c8c8;
     --sp-on-inverse: #0a0a0a;
@@ -132,7 +136,9 @@
 }
 
 /* Forzar el oscuro aunque el sistema esté en claro: mismos valores. */
-:root[data-theme="dark"] {
+:root[data-theme="dark"],
+:root[data-mode="dark"],
+[data-mode-scope="dark"] {
   color-scheme: dark;
   --sp-primary: #a78bfa;
   --sp-primary-hover: #c4b5fd;
@@ -149,7 +155,7 @@
   --sp-border-hover: #5c5c5c;
   --sp-text-primary: #ededed;
   --sp-text-secondary: #a3a3a3;
-  --sp-text-tertiary: #737373;
+  --sp-text-tertiary: #8a8a8a;
   --sp-inverse: #ededed;
   --sp-inverse-hover: #c8c8c8;
   --sp-on-inverse: #0a0a0a;

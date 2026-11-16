@@ -1,7 +1,7 @@
 {
   "name": "spider-ui",
-  "version": "1.3.0",
-  "description": "Sistema de diseño Spider (estilo Spidercitas): tokens, componentes del panel (v-*), marco de la app (rail, menú y cabecera de SpiderFolio) y pantallas de acceso (auth-*).",
+  "version": "1.4.0",
+  "description": "Sistema de diseño Spider (estilo Spidercitas): tokens, componentes del panel (v-*), marco de la app (rail, menú y cabecera de SpiderFolio), apps de datos y paletas (estilo phpMyFlow) y pantallas de acceso (auth-*).",
   "private": true,
   "style": "spider-ui.css",
   "files": [
@@ -9,13 +9,16 @@
     "tokens.css",
     "panel.css",
     "shell.css",
+    "data.css",
+    "themes.css",
     "select.js",
     "auth.css",
     "tailwind-preset.js",
     "tailwind-v4.css",
     "GUIDE.md",
     "demo.html",
-    "demo-marco.html"
+    "demo-marco.html",
+    "demo-datos.html"
   ],
   "exports": {
     ".": "./spider-ui.css",
@@ -23,6 +26,8 @@
     "./tokens.css": "./tokens.css",
     "./panel.css": "./panel.css",
     "./shell.css": "./shell.css",
+    "./data.css": "./data.css",
+    "./themes.css": "./themes.css",
     "./select.js": "./select.js",
     "./auth.css": "./auth.css",
     "./tailwind-preset": "./tailwind-preset.js",

@@ -1,0 +1,501 @@
+/*
+ * spider-ui · apps de datos (1.4.0)
+ * El estilo de phpMyFlow para herramientas densas: administradores de bases de datos, paneles con
+ * muchas filas, catálogos. Monocromo, compacto, nombres técnicos en monoespaciada y números alineados.
+ *
+ *   v-appbar      cabecera de 48 px: marca / ruta, pestañas y acciones
+ *   v-tabs        pestañas con subrayado (vistas de una misma cosa)
+ *   v-explorer    menú lateral de objetos: selector, buscador, grupos plegables, filas con una cifra
+ *   v-grid        tabla de datos compacta con cabecera fija
+ *   v-selectionbar barra de acciones sobre lo seleccionado
+ *   v-switch      interruptor (role="switch")
+ *   v-mono, v-page-meta, v-btn-ghost--danger
+ *
+ * Ver demo-datos.html y la sección 5 de GUIDE.md.
+ */
+
+/* ── Utilidades ──────────────────────────────────────────────────── */
+
+/* Nombres técnicos (tablas, columnas, collations, rutas): sin ligaduras y un poco más chica. */
+.v-mono { font-family: var(--sp-font-mono); font-size: 0.93em; font-variant-ligatures: none; }
+
+/* Línea de datos bajo un título: «26 tablas · 1 vista · 5,11 GB · utf8mb4». */
+.v-page-meta { margin: 2px 0 0; font-size: 12.5px; line-height: 18px; color: var(--sp-text-secondary); font-variant-numeric: tabular-nums; }
+
+/* Acción destructiva en una barra (Vaciar, Borrar): rojo solo en el texto. */
+.v-btn-ghost--danger { color: var(--sp-danger-text); }
+.v-btn-ghost--danger svg { color: currentColor; }
+.v-btn-ghost--danger:disabled, .v-btn-ghost--danger[aria-disabled="true"] { color: var(--sp-text-secondary); }
+
+/* Control segmentado de una sola opción (radiogroup): mismo aspecto que aria-pressed. */
+.v-segmented__item[aria-checked="true"] {
+  color: var(--sp-text-primary);
+  background: var(--sp-bg);
+  border-color: var(--sp-border);
+  box-shadow: var(--sp-shadow);
+}
+
+/* ── Cabecera de la app ───────────────────────────────────────────
+   <header class="v-appbar">
+     <nav class="v-appbar__crumbs" aria-label="Ubicación">
+       <strong class="v-appbar__brand">phpMyFlow</strong><span class="v-appbar__sep">/</span>
+       <a class="v-appbar__crumb v-mono" href="…">tienda</a>
+     </nav>
+     <nav class="v-tabs" aria-label="Vistas">…</nav>
+     <div class="v-appbar__actions">…</div>
+   </header> */
+
+.v-appbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 48px;
+  min-width: 0;
+  padding: 0 12px 0 16px;
+  background: var(--sp-bg);
+  border-bottom: 1px solid var(--sp-border);
+}
+.v-appbar__crumbs { display: flex; align-items: center; gap: 6px; min-width: 0; overflow: hidden; white-space: nowrap; }
+.v-appbar__brand { font-size: var(--sp-fs-base); font-weight: 600; letter-spacing: -0.01em; color: var(--sp-text-primary); }
+.v-appbar__sep { color: var(--sp-border-hover); }
+.v-appbar__crumb {
+  padding: 2px 6px;
+  border: 0;
+  border-radius: var(--sp-radius);
+  background: none;
+  color: var(--sp-text-primary);
+  text-decoration: none;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.v-appbar__crumb:hover { background: var(--sp-bg-muted); }
+.v-appbar__crumb:focus-visible { outline: 2px solid var(--sp-focus); outline-offset: 1px; }
+.v-appbar__actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.v-appbar__user { font-family: var(--sp-font-mono); font-size: 12px; color: var(--sp-text-secondary); white-space: nowrap; }
+@media (max-width: 640px) {
+  .v-appbar { gap: 8px; padding: 0 8px; }
+  .v-appbar__user { display: none; }
+}
+
+/* ── Pestañas con subrayado ───────────────────────────────────────
+   <nav class="v-tabs" aria-label="Vistas">
+     <button class="v-tabs__item" aria-current="page">Vista general</button>
+     <button class="v-tabs__item" disabled>Datos</button>
+   </nav>
+   Para pestañas que cambian un panel (no la página): role="tablist" + role="tab" con aria-selected.
+   Dentro de v-appbar ocupan toda la altura y el subrayado cae sobre el borde de la cabecera. */
+
+.v-tabs {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  min-width: 0;
+  height: 40px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 1px solid var(--sp-border);
+}
+.v-appbar .v-tabs { align-self: stretch; height: auto; margin-bottom: -1px; border-bottom: 0; }
+.v-tabs__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  padding: 0 10px;
+  border: 0;
+  background: none;
+  font-family: var(--sp-font);
+  font-size: var(--sp-fs-sm);
+  font-weight: 500;
+  color: var(--sp-text-secondary);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--sp-ease), box-shadow var(--sp-ease);
+}
+.v-tabs__item:hover:not(:disabled):not([aria-disabled="true"]) { color: var(--sp-text-primary); }
+.v-tabs__item[aria-current="page"],
+.v-tabs__item[aria-selected="true"] {
+  color: var(--sp-text-primary);
+  box-shadow: inset 0 -2px 0 var(--sp-text-primary);
+}
+.v-tabs__item:focus-visible { outline: 2px solid var(--sp-focus); outline-offset: -4px; border-radius: var(--sp-radius); }
+.v-tabs__item:disabled,
+.v-tabs__item[aria-disabled="true"] { color: var(--sp-text-tertiary); cursor: not-allowed; }
+
+/* ── Explorador (menú lateral de objetos) ─────────────────────────
+   El menú de una herramienta de datos: arriba, qué estás mirando (selector) y cómo buscar; abajo, la
+   lista. Reglas para que no confunda:
+   - Arriba solo dos filas: el selector (con su menú «⋯») y el buscador (con el botón de opciones).
+     Ordenar, agrupar y mostrar ocultos van en ese menú de opciones, no como casillas sueltas.
+   - Cada fila muestra UNA cifra, y la cabecera del grupo dice cuál es («Filas ↓»). La flecha indica
+     por qué está ordenada la lista.
+   - Si los nombres comparten prefijos (sap_, cfg_, wp_), un grupo por prefijo y el prefijo fuera del
+     nombre: se lee la parte que cambia.
+   - Los grupos vacíos no se muestran; sin nada elegido, un aviso en lugar de grupos en cero.
+   - La fila actual: fondo de tarjeta con borde (como el segmentado), no un bloque negro.
+
+   <aside class="v-explorer" aria-label="Base de datos">
+     <div class="v-explorer__top">
+       <div class="v-explorer__row">
+         <select class="v-input" data-v-select="sm">…</select>
+         <button class="v-btn-icon v-btn--sm" aria-label="Acciones de tienda" aria-haspopup="menu"><svg/></button>
+       </div>
+       <div class="v-explorer__row">
+         <label class="v-explorer__search"><svg/><input type="search" placeholder="Buscar tabla"></label>
+         <button class="v-btn-icon v-btn--sm" aria-label="Opciones de la lista" aria-haspopup="menu"><svg/></button>
+       </div>
+     </div>
+     <nav class="v-explorer__list" aria-label="Tablas">
+       <section class="v-explorer__group">
+         <h3 class="v-explorer__head">
+           <button aria-expanded="true"><svg class="v-explorer__chev"/>
+             <span class="v-explorer__title v-mono">ven_</span><span class="v-explorer__count">12</span>
+             <span class="v-explorer__metric">Filas ↓</span></button>
+         </h3>
+         <div class="v-explorer__item">
+           <span class="v-explorer__bar" style="width: 40%"></span>              (opcional: tamaño relativo)
+           <a class="v-explorer__link" href="…" aria-current="page" title="ven_pedidos · 19.459 filas">
+             <svg class="v-explorer__icon"/><span class="v-explorer__name">pedidos</span>
+             <span class="v-explorer__value">19,5 mil</span></a>
+           <button class="v-explorer__action" aria-pressed="false" aria-label="Fijar ven_pedidos"><svg/></button>
+         </div>
+       </section>
+     </nav>
+   </aside> */
+
+.v-explorer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: var(--sp-bg-subtle);
+  border-right: 1px solid var(--sp-border);
+}
+.v-explorer__top { display: grid; gap: 6px; padding: 10px 10px 8px; }
+.v-explorer__row { display: flex; align-items: center; gap: 4px; min-width: 0; }
+.v-explorer__row > :first-child,
+.v-explorer__row > .v-select { flex: 1; min-width: 0; }
+.v-explorer__row > .v-select--sm { display: flex; width: auto; }
+
+.v-explorer__search { position: relative; display: flex; align-items: center; }
+.v-explorer__search > svg {
+  position: absolute;
+  left: 9px;
+  width: 14px;
+  height: 14px;
+  color: var(--sp-text-tertiary);
+  pointer-events: none;
+}
+.v-explorer__search input {
+  width: 100%;
+  height: 30px;
+  padding: 0 8px 0 28px;
+  font-family: var(--sp-font);
+  font-size: var(--sp-fs-sm);
+  color: var(--sp-text-primary);
+  background: var(--sp-bg);
+  border: 1px solid var(--sp-border);
+  border-radius: var(--sp-radius);
+  outline: none;
+  transition: border-color var(--sp-ease), box-shadow var(--sp-ease);
+}
+.v-explorer__search input::placeholder { color: var(--sp-text-tertiary); }
+.v-explorer__search input:hover { border-color: var(--sp-border-hover); }
+.v-explorer__search input:focus { border-color: var(--sp-focus); }
+.v-explorer__search input:focus-visible { box-shadow: 0 0 0 3px var(--sp-focus-ring); }
+
+.v-explorer__list { flex: 1; min-height: 0; overflow: auto; padding: 2px 6px 16px; }
+.v-explorer__group + .v-explorer__group { margin-top: 6px; }
+.v-explorer__empty { margin: 8px 8px; font-size: var(--sp-fs-sm); line-height: var(--sp-lh-sm); color: var(--sp-text-secondary); }
+.v-explorer__empty--small { margin: 0 8px 4px 24px; font-size: 12px; color: var(--sp-text-tertiary); }
+
+/* Cabecera del grupo: nombre, cuántos hay y qué cifra muestran las filas. */
+.v-explorer__head { margin: 0; font: inherit; }
+.v-explorer__head > button,
+.v-explorer__head > span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  height: 26px;
+  padding: 0 6px 0 4px;
+  border: 0;
+  border-radius: var(--sp-radius);
+  background: none;
+  font-family: var(--sp-font);
+  font-size: var(--sp-fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--sp-text-secondary);
+  cursor: pointer;
+}
+.v-explorer__head > span { cursor: default; padding-left: 8px; }
+.v-explorer__head > button:hover { color: var(--sp-text-primary); }
+.v-explorer__head > button:focus-visible { outline: 2px solid var(--sp-focus); outline-offset: -2px; }
+.v-explorer__chev { flex-shrink: 0; width: 12px; height: 12px; color: var(--sp-text-tertiary); transition: transform var(--sp-ease); }
+.v-explorer__head [aria-expanded="false"] .v-explorer__chev { transform: rotate(-90deg); }
+/* Un prefijo es un identificador: en minúsculas y monoespaciada. */
+.v-explorer__title.v-mono { text-transform: none; letter-spacing: 0; font-size: 12px; font-weight: 600; color: var(--sp-text-primary); }
+.v-explorer__count { font-weight: 500; color: var(--sp-text-tertiary); font-variant-numeric: tabular-nums; letter-spacing: 0; }
+.v-explorer__metric { margin-left: auto; font-weight: 500; letter-spacing: 0.02em; color: var(--sp-text-tertiary); }
+
+/* Fila: enlace (o botón) que ocupa el ancho, con una acción opcional a la derecha. */
+.v-explorer__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: var(--sp-radius);
+}
+.v-explorer__item:hover { background: var(--sp-bg-muted); }
+.v-explorer__item:has(> [aria-current="page"]),
+.v-explorer__item--current {
+  background: var(--sp-bg);
+  border-color: var(--sp-border);
+  box-shadow: var(--sp-shadow);
+}
+.v-explorer__link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  height: calc(var(--sp-row-dense) - 2px);
+  padding: 0 6px 0 8px;
+  border: 0;
+  border-radius: var(--sp-radius);
+  background: none;
+  font-family: var(--sp-font);
+  font-size: var(--sp-fs-sm);
+  text-align: left;
+  text-decoration: none;
+  color: var(--sp-text-secondary);
+  cursor: pointer;
+}
+.v-explorer__item:hover .v-explorer__link,
+.v-explorer__link[aria-current="page"] { color: var(--sp-text-primary); }
+.v-explorer__link[aria-current="page"] { font-weight: 500; }
+.v-explorer__link:focus-visible { outline: 2px solid var(--sp-focus); outline-offset: -2px; }
+.v-explorer__icon { flex-shrink: 0; width: 14px; height: 14px; color: var(--sp-text-tertiary); }
+.v-explorer__link[aria-current="page"] .v-explorer__icon { color: var(--sp-text-primary); }
+.v-explorer__name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--sp-font-mono);
+  font-size: 12.5px;
+  font-variant-ligatures: none;
+}
+/* Letras que coinciden con la búsqueda. */
+.v-explorer__name mark,
+.v-explorer__hit { background: none; color: var(--sp-text-primary); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+.v-explorer__value {
+  flex-shrink: 0;
+  font-size: var(--sp-fs-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--sp-text-tertiary);
+}
+.v-explorer__item:hover .v-explorer__value,
+.v-explorer__link[aria-current="page"] .v-explorer__value { color: var(--sp-text-secondary); }
+/* Tamaño relativo (al ordenar por tamaño): una línea fina bajo la fila. */
+.v-explorer__bar {
+  position: absolute;
+  left: 6px;
+  bottom: 2px;
+  max-width: calc(100% - 12px);
+  height: 2px;
+  border-radius: 2px;
+  background: var(--sp-border-hover);
+  opacity: 0.6;
+  pointer-events: none;
+}
+/* Acción de la fila (fijar): aparece al pasar o con el foco; queda visible si está activa. */
+.v-explorer__action {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  margin-right: 2px;
+  padding: 0;
+  border: 0;
+  border-radius: calc(var(--sp-radius) - 2px);
+  background: none;
+  color: var(--sp-text-tertiary);
+  cursor: pointer;
+  opacity: 0;
+}
+.v-explorer__action svg { width: 12px; height: 12px; }
+.v-explorer__item:hover .v-explorer__action,
+.v-explorer__action:focus-visible,
+.v-explorer__action[aria-pressed="true"] { opacity: 1; }
+.v-explorer__action:hover { color: var(--sp-text-primary); background: var(--sp-bg-muted); }
+.v-explorer__action:focus-visible { outline: 2px solid var(--sp-focus); outline-offset: -2px; }
+@media (hover: none) { .v-explorer__action { opacity: 1; } }
+
+/* ── Tabla de datos ───────────────────────────────────────────────
+   <div class="v-grid-wrap">
+     <table class="v-grid">
+       <thead><tr>
+         <th class="v-grid__check"><input type="checkbox" aria-label="Seleccionar todo"></th>
+         <th aria-sort="ascending"><button class="v-grid__sort">Nombre</button></th>
+         <th class="v-grid__num"><button class="v-grid__sort">Filas</button></th>
+       </tr></thead>
+       <tbody><tr aria-selected="true">…<td class="v-grid__num">19.459</td></tr></tbody>
+     </table>
+   </div>
+   Celdas en monoespaciada (son datos); cabecera en Inter. v-grid--lines: líneas verticales (hoja de
+   cálculo). La altura de fila sale de --sp-row-dense (data-density="comfortable" la agranda). */
+
+.v-grid-wrap {
+  overflow: auto;
+  background: var(--sp-bg);
+  border: 1px solid var(--sp-border);
+  border-radius: var(--sp-radius-lg);
+}
+.v-grid {
+  min-width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-family: var(--sp-font-mono);
+  font-size: 12.5px;
+  font-variant-ligatures: none;
+  color: var(--sp-text-primary);
+}
+.v-grid th,
+.v-grid td {
+  height: var(--sp-row-dense);
+  max-width: 360px;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--sp-border);
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.v-grid--lines th:not(:last-child),
+.v-grid--lines td:not(:last-child) { border-right: 1px solid var(--sp-border); }
+.v-grid thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  height: 34px;
+  background: var(--sp-bg-subtle);
+  font-family: var(--sp-font);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--sp-text-secondary);
+}
+.v-grid tbody tr:last-child td { border-bottom: 0; }
+.v-grid tbody tr:hover td { background: var(--sp-bg-subtle); }
+.v-grid tbody tr[aria-selected="true"] td { background: var(--sp-bg-muted); }
+.v-grid tbody tr[aria-selected="true"] .v-grid__null { color: var(--sp-text-secondary); } /* el terciario no llega a AA sobre muted */
+.v-grid .v-grid__num { text-align: right; font-variant-numeric: tabular-nums; }
+.v-grid .v-grid__check { width: 36px; padding-right: 0; }
+.v-grid__check input { display: block; margin: 0; accent-color: var(--sp-inverse); }
+.v-grid__muted { color: var(--sp-text-secondary); }
+.v-grid__null { color: var(--sp-text-tertiary); font-style: italic; }
+.v-grid__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.v-grid__sort:hover { color: var(--sp-text-primary); }
+.v-grid__sort:focus-visible { outline: 2px solid var(--sp-focus); outline-offset: 2px; border-radius: 2px; }
+.v-grid th[aria-sort] { color: var(--sp-text-primary); }
+.v-grid th[aria-sort="ascending"] .v-grid__sort::after { content: "↑"; }
+.v-grid th[aria-sort="descending"] .v-grid__sort::after { content: "↓"; }
+/* Nombre que abre algo (la tabla, el registro). */
+.v-grid__link {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--sp-text-primary);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+.v-grid__link:hover { text-decoration: underline; text-underline-offset: 2px; }
+.v-grid__link:focus-visible { outline: 2px solid var(--sp-focus); outline-offset: 2px; border-radius: 2px; }
+
+/* ── Barra de selección ───────────────────────────────────────────
+   Sobre una tabla con casillas. Sin nada marcado, un aviso de qué se puede hacer (no botones grises):
+   <div class="v-selectionbar" role="toolbar" aria-label="Acciones sobre la selección">
+     <span class="v-selectionbar__count">3 seleccionadas</span>
+     <button class="v-btn-ghost v-btn--sm">Exportar</button>
+     <button class="v-btn-ghost v-btn--sm v-btn-ghost--danger">Borrar…</button>
+     <button class="v-btn-ghost v-btn--sm v-selectionbar__clear">Quitar selección</button>
+   </div>
+   <p class="v-selectionbar v-selectionbar--idle">Marca tablas para exportarlas, vaciarlas o borrarlas.</p> */
+
+.v-selectionbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+  min-height: 36px;
+  margin: 0;
+  padding: 3px 4px 3px 12px;
+  font-size: var(--sp-fs-sm);
+  color: var(--sp-text-primary);
+  background: var(--sp-bg-muted);
+  border: 1px solid var(--sp-border);
+  border-radius: var(--sp-radius);
+}
+.v-selectionbar__count { margin-right: 8px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.v-selectionbar__clear { margin-left: auto; color: var(--sp-text-secondary); }
+.v-selectionbar--idle { background: none; border-style: dashed; color: var(--sp-text-secondary); }
+
+/* ── Interruptor ──────────────────────────────────────────────────
+   <button class="v-switch" role="switch" aria-checked="true" aria-label="Activo"></button>
+   Para sí/no en filas densas. Con texto al lado: <label> + aria-labelledby. */
+
+.v-switch {
+  position: relative;
+  flex-shrink: 0;
+  width: 30px;
+  height: 18px;
+  padding: 0;
+  border: 1px solid var(--sp-border-hover);
+  border-radius: 999px;
+  background: var(--sp-bg-muted);
+  cursor: pointer;
+  transition: background var(--sp-ease), border-color var(--sp-ease);
+}
+.v-switch::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--sp-bg);
+  box-shadow: var(--sp-shadow);
+  transition: transform var(--sp-ease);
+}
+.v-switch[aria-checked="true"] { background: var(--sp-inverse); border-color: var(--sp-inverse); }
+.v-switch[aria-checked="true"]::after { transform: translateX(12px); }
+.v-switch:focus-visible { outline: 2px solid var(--sp-focus); outline-offset: 2px; }
+.v-switch:disabled { opacity: 0.45; cursor: not-allowed; }
+
+@media (prefers-reduced-motion: reduce) {
+  .v-tabs__item,
+  .v-explorer__chev,
+  .v-explorer__search input,
+  .v-switch,
+  .v-switch::after { transition: none; }
+}

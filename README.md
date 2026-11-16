@@ -8,12 +8,15 @@ Sistema de diseño compartido de los proyectos Spider (Spidercitas, SpiderPDF, S
 | `panel.css` | Componentes de aplicación `v-*` (estilo Vercel). |
 | `select.js` | Selector moderno: convierte `<select data-v-select>` en un desplegable con el estilo de `v-menu`. |
 | `shell.css` | Marco de la app: rail de áreas, menú lateral, cabecera, contenido y barra inferior (el de SpiderFolio). |
+| `data.css` | Apps de datos (1.4.0, el estilo de phpMyFlow): cabecera, pestañas, explorador, tabla de datos, barra de selección, interruptor. |
+| `themes.css` | Paletas (1.4.0): Grafito, Pizarra, Spider, Bosque y Alto contraste con `data-theme`; esquinas y densidad. |
 | `auth.css` | Pantallas de acceso `auth-*` (estilo Stripe, violeta y ámbar). |
-| `spider-ui.css` | Importa los cuatro anteriores. |
+| `spider-ui.css` | Importa todos los anteriores. |
 | `tailwind-preset.js` / `tailwind-v4.css` | Colores `spider-*` para Tailwind. |
 | `GUIDE.md` | Cómo usarlo (Claude Code la lee desde `node_modules`). |
 | `demo.html` | Vista de todos los componentes. Abrir en el navegador. |
 | `demo-marco.html` | El marco de la app completo (rail, menú, cabecera), como SpiderFolio. |
+| `demo-datos.html` | Una app de datos completa (cabecera, explorador, tabla), como phpMyFlow. Con paletas y modo oscuro. |
 
 ## Usar en un proyecto
 
