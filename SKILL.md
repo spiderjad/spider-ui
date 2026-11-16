@@ -44,6 +44,10 @@ Es la fuente de verdad: qué clases existen, la estructura HTML de cada componen
 - Marco de la app (rail de áreas, menú lateral, cabecera, barra inferior del teléfono) → las clases del marco
   (`v-shell`, `v-rail`, `v-sidebar`, `v-nav-item`, `v-topbar`, `v-main`…), que copian a SpiderFolio. No armar un
   menú propio. Tamaños de letra: `var(--sp-fs-*)`.
+- Selectores: **nunca un `<select>` nativo a la vista** (su lista la dibuja el sistema operativo). En HTML/Flask/
+  Electron: `<select class="v-input" data-v-select>` + `select.js` del paquete (`data-v-select="sm"` en barras y
+  tablas). En React: Select de Radix con las clases `v-select__boton`, `v-menu v-select__lista`, `v-menu__item`
+  y `v-menu__check`. Detalle en GUIDE.md, «Selector».
 - Login, registro, OTP o bienvenida → clases `auth-*` con la estructura completa de la guía.
 - Colores, radios, sombras y tipografía: **solo** `var(--sp-*)` o las clases `spider-*` de Tailwind. Nunca hex sueltos ni `bg-blue-500` / `text-gray-700`.
 - Para el layout (flex, grid, márgenes) podés usar CSS propio o utilidades de Tailwind.
@@ -54,5 +58,6 @@ Es la fuente de verdad: qué clases existen, la estructura HTML de cada componen
 
 - ¿El paquete está instalado e importado una sola vez?
 - ¿Usaste clases existentes y ningún color inventado?
+- ¿Ningún `<select>` nativo a la vista (todos con `data-v-select` o el Select de Radix)?
 - ¿Tiene foco visible, contraste AA, `aria-invalid` en los errores y funciona a 375px?
 - ¿Usaste un solo sistema (`v-*` o `auth-*`) en cada pantalla?

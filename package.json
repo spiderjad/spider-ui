@@ -1,6 +1,6 @@
 {
   "name": "spider-ui",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Sistema de diseño Spider (estilo Spidercitas): tokens, componentes del panel (v-*), marco de la app (rail, menú y cabecera de SpiderFolio) y pantallas de acceso (auth-*).",
   "private": true,
   "style": "spider-ui.css",
@@ -9,6 +9,7 @@
     "tokens.css",
     "panel.css",
     "shell.css",
+    "select.js",
     "auth.css",
     "tailwind-preset.js",
     "tailwind-v4.css",
@@ -22,6 +23,7 @@
     "./tokens.css": "./tokens.css",
     "./panel.css": "./panel.css",
     "./shell.css": "./shell.css",
+    "./select.js": "./select.js",
     "./auth.css": "./auth.css",
     "./tailwind-preset": "./tailwind-preset.js",
     "./tailwind-v4.css": "./tailwind-v4.css",

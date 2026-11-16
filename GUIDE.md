@@ -49,6 +49,9 @@ Tokens nuevos en 1.1.0: `--sp-bg-muted` (hover, fondo de controles), `--sp-canva
 - `.v-app [hidden]` oculta siempre, aunque el componente tenga su propio `display`.
 - Clases de texto: `v-eyebrow`, `v-text-sm`, `v-text-muted`, `v-prose`, y `v-ocultar-movil` (menos de 640 px).
 
+**Cambios en 1.3.0:** selector moderno (`select.js` + `v-select`), en lugar del `<select>` nativo. Ver «Selector»
+en la sección 3.
+
 ## 2. Qué estilo usar en cada pantalla
 
 | Pantalla | Sistema | Clases |
@@ -77,7 +80,27 @@ Envolver la raíz de la app con `class="v-app"` (fuente, color y box-sizing).
   <!-- con error: aria-invalid="true" y <p class="v-error"> -->
 </div>
 ```
-`v-input` sirve también para `<select>` y `<textarea>`.
+`v-input` sirve también para `<textarea>`.
+
+**Selector** (1.3.0). **Nunca un `<select>` nativo a la vista**: su lista la dibuja el sistema operativo (gris,
+con el azul de Windows) y no sigue el estilo. Usar el selector de spider-ui, que abre una lista con el estilo de
+`v-menu` (como el menú de la cuenta), con ✓ en la opción elegida.
+- **HTML / Flask / Electron sin React:** cargar `select.js` una vez y marcar el `<select>` con `data-v-select`.
+  El `<select>` sigue en el formulario (oculto): se envía igual y sigue disparando `change`.
+  ```html
+  <script src="node_modules/spider-ui/select.js" defer></script>
+  <label class="v-label" for="rol">Rol</label>
+  <select class="v-input" id="rol" name="rol" data-v-select>
+    <option value="admin" data-desc="Todo, también los usuarios">Administrador</option>   <!-- data-desc: opcional -->
+    <option value="lectura" selected>Solo lectura</option>
+  </select>
+  ```
+  `data-v-select="sm"`: versión chica (30 px) para barras, tablas y paginación. Los `<select>` que se agregan
+  después (formularios armados con JS) se convierten solos. Si el código cambia `select.value`, llamar a
+  `spiderSelect.refrescar(select)` para que el botón lo muestre.
+- **React:** el Select de Radix con las mismas clases: disparador `v-select__boton`, lista `v-menu v-select__lista`,
+  opciones `v-menu__item` con `aria-selected` y `<span class="v-menu__check">` (ícono check).
+- Teclado: ↑ ↓ Inicio Fin, Enter o Espacio para elegir, Esc para cerrar, y una letra salta a la opción.
 
 **Tarjeta**
 ```html

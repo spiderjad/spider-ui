@@ -55,6 +55,26 @@
     <div style="background:var(--sp-canvas); height:120px; display:grid; place-items:center; color:var(--sp-text-secondary); font-size:13px">--sp-canvas</div>
   </div>
 
+  <h2 class="demo-h">Selector (1.3.0)</h2>
+  <div class="demo-row" style="align-items:flex-start">
+    <div class="v-field" style="width:260px">
+      <label class="v-label" for="demo-rol">Rol</label>
+      <select class="v-input" id="demo-rol" data-v-select>
+        <option value="admin" data-desc="Todo, también los usuarios">Administrador</option>
+        <option value="operador" data-desc="Ejecuta y cancela">Operador</option>
+        <option value="lectura" selected data-desc="Solo mira">Solo lectura</option>
+      </select>
+    </div>
+    <div class="v-field">
+      <label class="v-label" for="demo-por">Por página (data-v-select="sm")</label>
+      <select class="v-input" id="demo-por" data-v-select="sm"><option>10</option><option selected>25</option><option>50</option></select>
+    </div>
+    <div class="v-field" style="width:200px">
+      <label class="v-label" for="demo-off">Deshabilitado</label>
+      <select class="v-input" id="demo-off" data-v-select disabled><option>No se puede</option></select>
+    </div>
+  </div>
+
   <h2 class="demo-h">Menú</h2>
   <div class="demo-row">
     <div class="v-menu" role="menu" aria-label="Demo" style="width:300px">
@@ -156,5 +176,6 @@
     </div>
   </div>
 </div>
+<script src="select.js" defer></script>
 </body>
 </html>

@@ -340,6 +340,66 @@ textarea.v-input { min-height: 88px; resize: vertical; line-height: 1.5; }
 .v-menu__hint { font-size: 12px; color: var(--sp-text-secondary); font-variant-numeric: tabular-nums; }
 .v-menu__sep { height: 1px; margin: 4px 8px; background: var(--sp-border); }
 
+/* ── Selector (1.3.0) ──────────────────────────────────────────────
+   Reemplaza a la vista el <select> nativo (su lista la dibuja el sistema operativo, gris y con el azul de
+   Windows) por un desplegable con el estilo de v-menu. Lo arma select.js a partir de <select data-v-select>:
+   el <select> sigue en el formulario (oculto), así que el envío, los eventos change y la validación no cambian.
+     <span class="v-select">
+       <button class="v-select__boton" role="combobox" aria-haspopup="listbox" aria-expanded="false">
+         <span class="v-select__valor">Administrador</span><svg/>
+       </button>
+       <div class="v-menu v-select__lista" role="listbox">
+         <div class="v-menu__item" role="option" aria-selected="true">
+           <span class="v-menu__label">Administrador <span class="v-menu__desc">…</span></span><span class="v-menu__check"><svg/></span>
+         </div>
+       </div>
+     </span>
+   data-v-select="sm": versión chica (30 px) para barras y tablas. */
+
+.v-select { position: relative; display: flex; width: 100%; min-width: 0; }
+.v-select--sm { display: inline-flex; width: auto; }
+.v-select__boton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 36px;
+  padding: 0 10px 0 12px;
+  font: inherit;
+  font-size: var(--sp-fs-base);
+  text-align: left;
+  color: var(--sp-text-primary);
+  background: var(--sp-bg);
+  border: 1px solid var(--sp-border);
+  border-radius: var(--sp-radius);
+  cursor: pointer;
+  transition: border-color var(--sp-ease), box-shadow var(--sp-ease);
+}
+.v-select--sm .v-select__boton { height: 30px; padding: 0 8px 0 10px; font-size: var(--sp-fs-sm); }
+.v-select__boton:hover:not(:disabled) { border-color: var(--sp-border-hover); }
+.v-select__boton:focus-visible { outline: none; border-color: var(--sp-focus); box-shadow: 0 0 0 3px var(--sp-focus-ring); }
+.v-select__boton[aria-expanded="true"] { border-color: var(--sp-focus); }
+.v-select__boton:disabled { color: var(--sp-text-secondary); background: var(--sp-bg-subtle); cursor: not-allowed; }
+.v-select__boton[aria-invalid="true"] { border-color: var(--sp-danger); }
+.v-select__valor { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.v-select__boton > svg { flex-shrink: 0; width: 16px; height: 16px; color: var(--sp-text-secondary); }
+/* La lista va en posición fija (la ubica select.js): no la recorta una tabla con scroll y, dentro de un
+   <dialog>, queda por encima de él. */
+.v-select__lista {
+  position: fixed;
+  z-index: 70;
+  max-height: min(320px, 50vh);
+  overflow-y: auto;
+  animation: v-select-in 120ms ease-out;
+}
+@keyframes v-select-in { from { opacity: 0; transform: translateY(-4px); } }
+.v-select__lista .v-menu__item { cursor: pointer; }
+.v-select__lista .v-menu__item[aria-selected="true"] { font-weight: 500; }
+.v-menu__check { display: grid; place-items: center; flex-shrink: 0; width: 16px; height: 16px; margin-left: auto;
+  color: var(--sp-primary-text); visibility: hidden; }
+.v-menu__check svg { width: 16px; height: 16px; }
+.v-menu__item[aria-selected="true"] > .v-menu__check { visibility: visible; }
+
 /* ── Modal ────────────────────────────────────────────────────────
    <dialog class="v-app v-dialog" aria-labelledby="t">  (abrir con showModal())
      <header class="v-card__header"><h2 class="v-card__title" id="t">…</h2></header>
@@ -401,4 +461,6 @@ textarea.v-input { min-height: 88px; resize: vertical; line-height: 1.5; }
   .v-btn-ghost, .v-btn-icon, .v-segmented__item { transition: none; }
   .v-btn-ghost:active, .v-btn-icon:active { transform: none; }
   .v-dialog[open], .v-dialog::backdrop { animation: none; }
+  .v-select__boton { transition: none; }
+  .v-select__lista { animation: none; }
 }
