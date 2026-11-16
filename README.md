@@ -6,6 +6,7 @@ Sistema de diseño compartido de los proyectos Spider (Spidercitas, SpiderPDF, S
 |---|---|
 | `tokens.css` | Colores, tipografía, radios y sombras (`--sp-*`). **Aquí se cambia el estilo de todo.** |
 | `panel.css` | Componentes de aplicación `v-*` (estilo Vercel). |
+| `select.js` | Selector moderno: convierte `<select data-v-select>` en un desplegable con el estilo de `v-menu`. |
 | `shell.css` | Marco de la app: rail de áreas, menú lateral, cabecera, contenido y barra inferior (el de SpiderFolio). |
 | `auth.css` | Pantallas de acceso `auth-*` (estilo Stripe, violeta y ámbar). |
 | `spider-ui.css` | Importa los cuatro anteriores. |
