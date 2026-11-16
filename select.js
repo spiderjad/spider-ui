@@ -26,8 +26,14 @@
   let contador = 0;
 
   function etiquetaDe(select) {
+    const propia = select.getAttribute('aria-label');
+    if (propia) return propia.trim();
     const label = select.labels && select.labels[0];
-    return (label ? label.textContent : select.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim();
+    if (!label) return '';
+    // <label>Campo <select>…</select></label>: el texto del label sin el de las opciones.
+    const copia = label.cloneNode(true);
+    copia.querySelectorAll('select, .v-select').forEach((n) => n.remove());
+    return copia.textContent.replace(/\s+/g, ' ').trim();
   }
 
   function mejorar(select) {
