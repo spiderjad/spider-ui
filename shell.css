@@ -1,0 +1,500 @@
+/*
+ * spider-ui · marco de la app (1.2.0)
+ * Copiado de SpiderFolio (frontend/src/components/app-shell.tsx): medidas, letras y colores.
+ *
+ *   rail de áreas (64 px) · menú del área (260 px; 72 px contraído) · cabecera (56 px) · contenido (máx. 1400 px)
+ *
+ * Colores: base monocroma; el violeta suave (--sp-primary-light / --sp-primary-text) marca SOLO el ítem
+ * actual del rail y del menú. Los contadores y puntos de aviso van en --sp-primary.
+ * Responsive (como SpiderFolio): menos de 1024 px, el menú se abre como hoja lateral (v-shell--menu-abierto);
+ * menos de 768 px, el rail pasa a barra inferior (v-bottombar).
+ * Estructura HTML completa en GUIDE.md, sección «Marco de la app».
+ */
+
+.v-shell {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  min-height: 100dvh;
+  background: var(--sp-bg-subtle);
+}
+.v-shell__body { display: flex; flex: 1; flex-direction: column; min-width: 0; }
+
+/* ── Rail de áreas ────────────────────────────────────────────────
+   <nav class="v-rail" aria-label="Áreas">
+     <a class="v-rail__item" href="…" aria-current="page"><svg/><span>Docs</span><span class="v-rail__dot"></span></a>
+     <div class="v-rail__foot"><a class="v-rail__item">…Ajustes…</a></div>
+   </nav> */
+
+.v-rail {
+  position: sticky;
+  top: 0;
+  z-index: 41;
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: var(--sp-rail-width);
+  height: 100dvh;
+  padding: 16px 0 12px;
+  background: var(--sp-bg-subtle);
+  border-right: 1px solid var(--sp-border);
+}
+.v-rail__item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  width: 52px;
+  padding: 6px 0;
+  font-size: var(--sp-fs-2xs);
+  line-height: 1.25;
+  color: var(--sp-text-secondary);
+  text-decoration: none;
+  border-radius: var(--sp-radius);
+  outline: none;
+  transition: background-color var(--sp-ease), color var(--sp-ease);
+}
+.v-rail__item svg { flex-shrink: 0; width: 20px; height: 20px; }
+.v-rail__item > span:not(.v-rail__dot) {
+  width: 100%; padding: 0 2px; overflow: hidden; text-align: center; text-overflow: ellipsis; white-space: nowrap;
+}
+.v-rail__item:hover { background: var(--sp-bg-muted); color: var(--sp-text-primary); }
+.v-rail__item[aria-current="page"] {
+  font-weight: 500;
+  color: var(--sp-primary-text);
+  background: var(--sp-primary-light);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sp-primary) 15%, transparent);
+}
+.v-rail__item:focus-visible { outline: 2px solid var(--sp-focus); outline-offset: 1px; }
+.v-rail__dot { position: absolute; top: 4px; right: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--sp-primary); }
+.v-rail__foot { margin-top: auto; padding-top: 8px; border-top: 1px solid var(--sp-border); }
+
+/* ── Menú del área ────────────────────────────────────────────────
+   <div class="v-sidebar">                       (ancho y posición; no recorta la flecha del borde)
+     <aside class="v-sidebar__panel">
+       <div class="v-sidebar__top"> empresa (v-sidebar__row + v-mark) </div>
+       <div class="v-sidebar__actions"> v-sidebar__search + v-sidebar__add </div>
+       <nav class="v-sidebar__nav"> v-sidebar__title · v-nav-item · v-sidebar__section · v-sidebar__sep </nav>
+       <div class="v-sidebar__foot"> usuario (v-sidebar__row + v-avatar) </div>
+     </aside>
+     <button class="v-sidebar__edge" aria-label="Contraer menú">«</button>
+   </div>
+   Lo que se oculta al contraer lleva .v-sidebar__hide. */
+
+.v-sidebar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  flex-shrink: 0;
+  width: var(--sp-menu-width);
+  height: 100dvh;
+  transition: width var(--sp-ease-emphasized);
+}
+.v-sidebar__panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: var(--sp-bg);
+  border-right: 1px solid var(--sp-border);
+}
+.v-sidebar__top { flex-shrink: 0; padding: 12px 12px 4px; }
+.v-sidebar__foot { flex-shrink: 0; padding: 8px 12px; border-top: 1px solid var(--sp-border); }
+
+/* Fila de 44 px con su menú: la empresa (arriba) y la persona (abajo). */
+.v-sidebar__row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 44px;
+  padding: 0;
+  overflow: hidden;
+  font: inherit;
+  text-align: left;
+  color: var(--sp-text-primary);
+  background: transparent;
+  border: 0;
+  border-radius: var(--sp-radius);
+  cursor: pointer;
+  outline: none;
+}
+.v-sidebar__row:hover, .v-sidebar__row[aria-expanded="true"] { background: var(--sp-bg-muted); }
+.v-sidebar__row:focus-visible { outline: 2px solid var(--sp-focus); outline-offset: 1px; }
+.v-sidebar__row > svg { flex-shrink: 0; width: 16px; height: 16px; margin-right: 8px; color: var(--sp-text-secondary); }
+.v-sidebar__row-text { flex: 1; min-width: 0; padding-right: 8px; }
+.v-sidebar__row-text strong,
+.v-sidebar__row-text > span {
+  display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 16px;
+}
+.v-sidebar__row-text strong { font-size: var(--sp-fs-base); font-weight: 600; }
+.v-sidebar__foot .v-sidebar__row-text strong { font-weight: 500; }
+.v-sidebar__row-text > span { font-size: var(--sp-fs-sm); color: var(--sp-text-secondary); }
+
+/* Hueco de 36 px para el ícono o la marca (alinea todo en una columna, también contraído). */
+.v-sidebar__slot { display: grid; place-items: center; flex-shrink: 0; width: 36px; height: 36px; }
+
+/* Logo de la empresa: la inicial sobre el violeta. */
+.v-mark {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  font-size: var(--sp-fs-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--sp-on-primary);
+  background: var(--sp-primary);
+  border-radius: calc(var(--sp-radius) - 2px);
+}
+/* Avatar de la persona: iniciales sobre el violeta. */
+.v-avatar {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  overflow: hidden;
+  font-size: var(--sp-fs-xs);
+  font-weight: 600;
+  color: var(--sp-on-primary);
+  background: var(--sp-primary);
+  border-radius: 50%;
+}
+.v-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Buscar (con su atajo) y «+». */
+.v-sidebar__actions { display: flex; flex-shrink: 0; gap: 4px; padding: 0 12px 4px; }
+.v-sidebar__search,
+.v-sidebar__add {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  padding: 0;
+  font: inherit;
+  font-size: var(--sp-fs-sm);
+  color: var(--sp-text-secondary);
+  background: var(--sp-bg);
+  border: 1px solid var(--sp-border);
+  border-radius: var(--sp-radius);
+  cursor: pointer;
+  outline: none;
+  transition: background-color var(--sp-ease), color var(--sp-ease);
+}
+.v-sidebar__search { flex: 1; min-width: 0; overflow: hidden; text-align: left; }
+.v-sidebar__add { justify-content: center; flex-shrink: 0; width: 36px; text-decoration: none; }
+.v-sidebar__search:hover, .v-sidebar__add:hover { color: var(--sp-text-primary); background: var(--sp-bg-muted); }
+.v-sidebar__search:focus-visible, .v-sidebar__add:focus-visible { outline: 2px solid var(--sp-focus); outline-offset: 1px; }
+.v-sidebar__search svg, .v-sidebar__add svg { flex-shrink: 0; width: 18px; height: 18px; }
+.v-sidebar__search > span:not(.v-sidebar__slot) { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.v-sidebar__search kbd {
+  margin-right: 8px;
+  padding: 0 6px;
+  font-family: var(--sp-font);
+  font-size: var(--sp-fs-2xs);
+  line-height: 16px;
+  border: 1px solid var(--sp-border);
+  border-radius: 4px;
+}
+
+/* Lista del área. */
+.v-sidebar__nav {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  min-height: 0;
+  padding: 8px 12px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+.v-sidebar__nav:hover, .v-sidebar__nav:focus-within {
+  scrollbar-color: color-mix(in srgb, var(--sp-text-primary) 25%, transparent) transparent;
+}
+.v-sidebar__title {
+  margin: 0;
+  padding: 0 10px 4px;
+  overflow: hidden;
+  font-size: var(--sp-fs-base);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* Título discreto de un grupo («ESPACIOS»): 10 px, en mayúsculas. */
+.v-sidebar__section {
+  display: flex;
+  align-items: flex-end;
+  height: 28px;
+  margin: 0;
+  padding: 8px 10px 4px;
+  font-size: var(--sp-fs-2xs);
+  font-weight: 500;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--sp-text-secondary);
+}
+/* Sección plegable («RECIENTES», «FAVORITOS»): botón con flecha, aria-expanded. */
+.v-sidebar__group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 28px;
+  padding: 0 10px;
+  font: inherit;
+  font-size: var(--sp-fs-xs);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sp-text-secondary);
+  background: transparent;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  outline: none;
+}
+.v-sidebar__group:hover { color: var(--sp-text-primary); }
+.v-sidebar__group:focus-visible { outline: 2px solid var(--sp-focus); }
+.v-sidebar__group svg { width: 14px; height: 14px; transition: transform 200ms ease; }
+.v-sidebar__group[aria-expanded="false"] svg { transform: rotate(-90deg); }
+.v-sidebar__sep { flex-shrink: 0; height: 1px; margin: 8px 0; background: var(--sp-border); border: 0; }
+
+/* Ítem del menú: fila de 36 px, ícono de 18 px, texto de 14 px.
+   <a class="v-nav-item" aria-current="page"><span class="v-sidebar__slot"><svg/></span>
+     <span class="v-nav-item__label">Vencimientos</span><span class="v-nav-count v-nav-count--danger">2</span></a> */
+.v-nav-item {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  width: 100%;
+  height: var(--sp-row-height);
+  overflow: hidden;
+  font-size: var(--sp-fs-base);
+  color: color-mix(in srgb, var(--sp-text-primary) 90%, transparent);
+  text-decoration: none;
+  border-radius: var(--sp-radius);
+  outline: none;
+  transition: background-color var(--sp-ease), color var(--sp-ease);
+}
+.v-nav-item svg { width: 18px; height: 18px; color: var(--sp-text-secondary); }
+.v-nav-item:hover { background: var(--sp-bg-muted); }
+.v-nav-item:focus-visible { outline: 2px solid var(--sp-focus); outline-offset: -2px; }
+.v-nav-item[aria-current="page"] {
+  font-weight: 500;
+  color: var(--sp-primary-text);
+  background: var(--sp-primary-light);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sp-primary) 15%, transparent);
+}
+.v-nav-item[aria-current="page"] svg { color: var(--sp-primary-text); }
+.v-nav-item__label { flex: 1; min-width: 0; padding-right: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* Fila secundaria (recientes, favoritos): 30 px, 13 px, gris, con sangría. */
+.v-nav-item--compact {
+  width: calc(100% - 8px);
+  height: 30px;
+  margin-left: 8px;
+  font-size: var(--sp-fs-sm);
+  color: var(--sp-text-secondary);
+}
+.v-nav-item--compact:hover { color: var(--sp-text-primary); }
+.v-nav-item--compact .v-sidebar__slot { width: 28px; height: 30px; }
+.v-nav-item--compact svg { width: 16px; height: 16px; }
+
+/* Avisos de un ítem: contador (11 px) o punto. */
+.v-nav-count {
+  flex-shrink: 0;
+  margin-right: 8px;
+  padding: 0 6px;
+  font-size: var(--sp-fs-xs);
+  font-weight: 600;
+  line-height: 20px;
+  color: var(--sp-on-primary);
+  background: var(--sp-primary);
+  border-radius: 999px;
+  font-variant-numeric: tabular-nums;
+}
+.v-nav-count--warning { color: var(--sp-bg); background: var(--sp-warning); }
+.v-nav-count--danger { color: var(--sp-bg); background: var(--sp-danger); }
+.v-nav-dot { flex-shrink: 0; width: 8px; height: 8px; margin-right: 12px; border-radius: 50%; background: var(--sp-primary); }
+.v-nav-dot--warning { background: var(--sp-warning); }
+
+/* Flecha redonda del borde: contrae o expande el menú (Ctrl+B). */
+.v-sidebar__edge {
+  position: absolute;
+  top: 20px;
+  right: -12px;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  color: var(--sp-text-secondary);
+  background: var(--sp-bg);
+  border: 1px solid var(--sp-border);
+  border-radius: 50%;
+  box-shadow: var(--sp-shadow);
+  cursor: pointer;
+  outline: none;
+  transition: background-color var(--sp-ease), color var(--sp-ease);
+}
+.v-sidebar__edge:hover { color: var(--sp-text-primary); background: var(--sp-bg-muted); }
+.v-sidebar__edge:focus-visible { outline: 2px solid var(--sp-focus); outline-offset: 1px; }
+.v-sidebar__edge svg { width: 14px; height: 14px; }
+
+/* Contraído (72 px, solo íconos): <div class="v-shell v-shell--contraido">. Cada fila es un cuadrado de
+   36 px centrado; los textos (.v-sidebar__hide) y los contadores desaparecen. Solo en pantalla grande: en
+   pantallas chicas el menú se abre como hoja y siempre se ve entero. */
+@media (min-width: 1024px) {
+  .v-shell--contraido .v-sidebar { width: var(--sp-menu-collapsed-width); }
+  .v-shell--contraido .v-sidebar__hide,
+  .v-shell--contraido .v-nav-item__label,
+  .v-shell--contraido .v-nav-count,
+  .v-shell--contraido .v-nav-dot,
+  .v-shell--contraido .v-sidebar__title,
+  .v-shell--contraido .v-sidebar__search > span:not(.v-sidebar__slot),
+  .v-shell--contraido .v-sidebar__search kbd,
+  .v-shell--contraido .v-sidebar__row > svg { display: none; }
+  .v-shell--contraido .v-nav-item,
+  .v-shell--contraido .v-sidebar__row,
+  .v-shell--contraido .v-sidebar__search { flex: none; width: 36px; margin-inline: auto; }
+  .v-shell--contraido .v-nav-item--compact { height: var(--sp-row-height); }
+  .v-shell--contraido .v-sidebar__actions { flex-direction: column; align-items: center; }
+  .v-shell--contraido .v-sidebar__section { justify-content: center; height: 20px; padding: 0; font-size: 0; }
+  .v-shell--contraido .v-sidebar__section::after { content: ""; width: 20px; height: 1px; background: var(--sp-border); }
+}
+
+/* ── Cabecera ─────────────────────────────────────────────────────
+   <header class="v-topbar">
+     <p class="v-topbar__title">Archivos</p><p class="v-topbar__date">domingo, 8 de noviembre de 2026</p>
+     <div class="v-topbar__actions"> v-btn-icon (con <span class="v-count">2</span>) · v-btn-secondary v-btn--sm </div>
+   </header> */
+
+.v-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: var(--sp-header-height);
+  padding: 0 16px;
+  background: color-mix(in srgb, var(--sp-bg) 95%, transparent);
+  border-bottom: 1px solid var(--sp-border);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+.v-topbar__title { min-width: 0; margin: 0; overflow: hidden; font-size: var(--sp-fs-base); font-weight: 500; text-overflow: ellipsis; white-space: nowrap; }
+.v-topbar__date { margin: 0; font-size: var(--sp-fs-sm); line-height: var(--sp-lh-sm); color: var(--sp-text-secondary); white-space: nowrap; }
+.v-topbar__date::first-letter { text-transform: uppercase; }
+.v-topbar__actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.v-topbar .v-btn-icon { position: relative; width: 36px; height: 36px; }
+.v-topbar .v-btn-icon svg { width: 18px; height: 18px; }
+/* Número sobre un botón de ícono (avisos): violeta, 10 px. */
+.v-count {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  min-width: 16px;
+  padding: 0 4px;
+  font-size: var(--sp-fs-2xs);
+  font-weight: 600;
+  line-height: 16px;
+  text-align: center;
+  color: var(--sp-on-primary);
+  background: var(--sp-primary);
+  border-radius: 999px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Contenido ────────────────────────────────────────────────── */
+
+.v-main {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  max-width: var(--sp-content-max);
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+/* ── Barra inferior (teléfono): hasta cuatro áreas y «Más» ──────── */
+
+.v-bottombar { display: none; }
+.v-bottombar__item {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+  font: inherit;
+  font-size: var(--sp-fs-2xs);
+  line-height: 1.25;
+  color: var(--sp-text-secondary);
+  text-decoration: none;
+  background: transparent;
+  border: 0;
+  outline: none;
+}
+.v-bottombar__item svg { width: 20px; height: 20px; }
+.v-bottombar__item > span:not(.v-rail__dot) { max-width: 100%; padding: 0 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.v-bottombar__item[aria-current="page"] { font-weight: 600; color: var(--sp-primary-text); }
+.v-bottombar__item:focus-visible { outline: 2px solid var(--sp-focus); outline-offset: -2px; }
+
+/* Velo detrás del menú abierto como hoja lateral. */
+.v-shell__scrim { position: fixed; inset: 0; z-index: 44; background: var(--sp-backdrop); }
+
+/* ── Responsive (los cortes de SpiderFolio) ───────────────────── */
+
+@media (min-width: 640px) {
+  .v-topbar { padding: 0 24px; }
+  .v-main { padding: 24px; }
+}
+@media (min-width: 1024px) {
+  .v-main { padding: 24px 32px; }
+}
+/* Menos de 1024 px: el menú no ocupa lugar; se abre como hoja (v-shell--menu-abierto) desde la cabecera. */
+@media (max-width: 1023px) {
+  .v-sidebar {
+    position: fixed;
+    left: var(--sp-rail-width);
+    z-index: 45;
+    width: var(--sp-menu-width);
+    box-shadow: var(--sp-shadow-lg);
+    transform: translateX(calc(-100% - var(--sp-rail-width)));
+    transition: transform var(--sp-ease-emphasized);
+  }
+  .v-shell--menu-abierto .v-sidebar { transform: none; }
+  .v-sidebar__edge { display: none; }
+}
+/* Menos de 768 px: sin rail ni fecha en la cabecera; barra inferior fija de 64 px. */
+@media (max-width: 767px) {
+  .v-rail, .v-topbar__date { display: none; }
+  .v-sidebar { left: 0; }
+  .v-bottombar {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 40;
+    display: flex;
+    height: 64px;
+    padding-bottom: env(safe-area-inset-bottom);
+    background: var(--sp-bg);
+    border-top: 1px solid var(--sp-border);
+  }
+  .v-main { padding-bottom: 96px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v-rail__item, .v-sidebar, .v-sidebar__search, .v-sidebar__add, .v-nav-item, .v-sidebar__edge,
+  .v-sidebar__group svg { transition: none; }
+}

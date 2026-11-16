@@ -41,6 +41,14 @@ Para actualizar: el mismo `npm install github:spiderjad/spider-ui#<commit nuevo>
 
 Tokens nuevos en 1.1.0: `--sp-bg-muted` (hover, fondo de controles), `--sp-canvas` (zona de trabajo bajo documentos), `--sp-inverse` / `--sp-on-inverse` / `--sp-inverse-hover` (botón primario), `--sp-on-primary`, `--sp-focus` / `--sp-focus-ring`, `--sp-backdrop`, `--sp-shadow-md`, `--sp-primary-border`, `--sp-danger-text` y los `--sp-*-border` de los estados.
 
+**Cambios en 1.2.0** (el menú, las letras y los tamaños de SpiderFolio):
+- `shell.css`: el marco de la app (rail, menú lateral, cabecera, contenido y barra inferior). Ver la sección 4.
+- Escala de letra `--sp-fs-*` / `--sp-lh-*` y medidas del marco (`--sp-rail-width`, `--sp-menu-width`…).
+- **`.v-app` pone ahora el texto base en 14/22 px** (antes heredaba los 16 px del navegador). Al actualizar un
+  proyecto, revisar los textos que no tenían tamaño propio.
+- `.v-app [hidden]` oculta siempre, aunque el componente tenga su propio `display`.
+- Clases de texto: `v-eyebrow`, `v-text-sm`, `v-text-muted`, `v-prose`, y `v-ocultar-movil` (menos de 640 px).
+
 ## 2. Qué estilo usar en cada pantalla
 
 | Pantalla | Sistema | Clases |
@@ -123,7 +131,111 @@ Elemento resaltado con el teclado: `data-highlighted` o `:focus-visible`. Desact
 **Avisos**: `v-banner` más `--danger`, `--success`, `--warning` o `--info` (con `role="alert"` si es un error).
 **Títulos**: `v-page-title`, `v-page-subtitle` y `v-divider`.
 
-## 4. Pantallas de acceso (`auth-*`)
+**Letras** (1.2.0, las de SpiderFolio; siempre con los tokens, nunca con px sueltos):
+
+| Token | Tamaño | Para qué |
+|---|---|---|
+| `--sp-fs-2xs` | 10 px | nombres del rail, títulos de grupo del menú («ESPACIOS»), teclas |
+| `--sp-fs-xs` | 11 px | contadores, secciones plegables («RECIENTES») |
+| `--sp-fs-sm` / `--sp-lh-sm` | 13 / 18 px | texto secundario, ayudas, buscador del menú, fecha de la cabecera |
+| `--sp-fs-base` / `--sp-lh-base` | 14 / 22 px | texto de interfaz: filas del menú, tablas, formularios (base de `.v-app`) |
+| `--sp-fs-lg` | 15 px | título de tarjeta |
+| `--sp-fs-xl` | 24 px | título de página |
+| `--sp-fs-prose` / `--sp-lh-prose` | 17 px / 1,75 | documentos y textos largos (`v-prose`) |
+
+`v-eyebrow`: etiqueta de 13 px en mayúsculas con espaciado .18em (encima de un número o de un bloque).
+
+## 4. Marco de la app (1.2.0, `shell.css`)
+
+El de SpiderFolio. Ver `demo-marco.html`.
+
+| Parte | Medida | Letra | Color |
+|---|---|---|---|
+| Rail de áreas `v-rail` | 64 px; ítem de 52 px, ícono de 20 px | 10 px | fondo `--sp-bg-subtle`; actual en violeta suave |
+| Menú `v-sidebar` | 260 px (72 contraído) | 14 px; título del área 14 semibold | fondo `--sp-bg`, borde derecho |
+| Fila `v-nav-item` | 36 px; ícono de 18 px en un hueco de 36 | 14 px, texto al 90 % | hover `--sp-bg-muted`; actual `--sp-primary-light` / `--sp-primary-text` |
+| Fila secundaria `v-nav-item--compact` | 30 px, ícono de 16 | 13 px gris | |
+| Grupo `v-sidebar__section` | 28 px | 10 px, mayúsculas, .18em | `--sp-text-secondary` |
+| Contador `v-nav-count` | 20 px de alto | 11 px semibold | `--sp-primary` (`--warning`, `--danger`) |
+| Cabecera `v-topbar` | 56 px | título 14 medium, fecha 13 gris | fondo `--sp-bg` al 95 % con desenfoque |
+| Contenido `v-main` | máx. 1400 px; 16/24/32 px de margen | | fondo `--sp-bg-subtle` |
+| Barra inferior `v-bottombar` | 64 px (solo < 768 px) | 10 px | actual en `--sp-primary-text` |
+
+El violeta suave va **solo** en el ítem actual del rail y del menú; los avisos (punto del rail, contadores,
+número sobre un ícono) en `--sp-primary`. Todo lo demás, gris.
+
+```html
+<div class="v-shell">                                   <!-- + v-shell--contraido · v-shell--menu-abierto -->
+  <nav class="v-rail" aria-label="Áreas">
+    <a class="v-rail__item" href="/docs" aria-current="page"><svg/><span>Docs</span><span class="v-rail__dot"></span></a>
+    <div class="v-rail__foot"><a class="v-rail__item" href="/ajustes"><svg/><span>Ajustes</span></a></div>
+  </nav>
+
+  <div class="v-sidebar">
+    <aside class="v-sidebar__panel" aria-label="Menú de Docs">
+      <div class="v-sidebar__top">
+        <button class="v-sidebar__row" aria-label="Empresa: Demo">
+          <span class="v-sidebar__slot"><span class="v-mark">D</span></span>
+          <span class="v-sidebar__row-text v-sidebar__hide"><strong>Demo</strong></span>
+          <svg/>                                         <!-- chevrons-up-down -->
+        </button>
+      </div>
+      <div class="v-sidebar__actions">
+        <button class="v-sidebar__search" aria-keyshortcuts="Control+K">
+          <span class="v-sidebar__slot"><svg/></span><span>Buscar…</span><kbd>Ctrl K</kbd>
+        </button>
+        <button class="v-sidebar__add" aria-label="Crear"><svg/></button>
+      </div>
+      <nav class="v-sidebar__nav" aria-label="Docs">
+        <p class="v-sidebar__title">Documentación</p>
+        <a class="v-nav-item" href="…" aria-current="page">
+          <span class="v-sidebar__slot"><svg/></span><span class="v-nav-item__label">Vencimientos</span>
+          <span class="v-nav-count v-nav-count--danger">2</span>
+        </a>
+        <p class="v-sidebar__section">Espacios</p>
+        <button class="v-sidebar__group" aria-expanded="true"><svg/>Recientes</button>   <!-- plegable -->
+        <a class="v-nav-item v-nav-item--compact" href="…">…</a>
+        <hr class="v-sidebar__sep">
+      </nav>
+      <div class="v-sidebar__foot">
+        <button class="v-sidebar__row" aria-label="Diego Pennisi">
+          <span class="v-sidebar__slot"><span class="v-avatar">DP</span></span>
+          <span class="v-sidebar__row-text v-sidebar__hide"><strong>Diego Pennisi</strong><span>Administrador</span></span>
+          <svg/>
+        </button>
+      </div>
+    </aside>
+    <button class="v-sidebar__edge" aria-label="Contraer menú (Ctrl+B)" aria-keyshortcuts="Control+B"><svg/></button>
+  </div>
+
+  <div class="v-shell__body">
+    <header class="v-topbar">
+      <p class="v-topbar__title">Archivos</p>
+      <p class="v-topbar__date">domingo, 8 de noviembre de 2026</p>
+      <div class="v-topbar__actions">
+        <button class="v-btn-icon" aria-label="Avisos: 5"><svg/><span class="v-count">5</span></button>
+      </div>
+    </header>
+    <main class="v-main">…</main>
+  </div>
+
+  <nav class="v-bottombar" aria-label="Áreas">           <!-- solo se ve en el teléfono -->
+    <a class="v-bottombar__item" href="/docs" aria-current="page"><svg/><span>Docs</span></a>
+  </nav>
+</div>
+```
+
+- **Contraer** (solo en pantalla grande): la app alterna `v-shell--contraido` con la flecha del borde y con
+  Ctrl+B, y lo recuerda. Contraído, el menú mide 72 px y cada fila es un cuadrado de 36 px; lo que lleva
+  `v-sidebar__hide` desaparece (poné un `title` o tooltip con el nombre de cada fila).
+- **Menos de 1024 px**: el menú se abre como hoja sobre el contenido con `v-shell--menu-abierto` (un botón ☰ en
+  la cabecera). Detrás, `<div class="v-shell__scrim">` para cerrarlo con un clic. Esc también debe cerrarlo.
+- **Menos de 768 px**: el rail desaparece y aparece `v-bottombar` (hasta 4 áreas y «Más»). La fecha de la
+  cabecera se oculta; los rótulos de los botones, con `v-ocultar-movil`.
+- Navegación: `aria-current="page"` en el ítem actual (rail, menú y barra inferior).
+- Íconos: Lucide con trazo 1,75.
+
+## 5. Pantallas de acceso (`auth-*`)
 
 Estructura obligatoria:
 
@@ -155,7 +267,7 @@ Estructura obligatoria:
 
 Extras: `auth-card--wide` + `auth-grid` (formularios largos de 2 columnas), `auth-input--otp`, `auth-input-wrap` + `auth-eye` (mostrar contraseña), `auth-banner(--success|--info)`, `auth-badge`, `auth-link`, `auth-divider`, `auth-alt`, `auth-check`, `auth-spinner`, `auth-card--shake` (error), `<dialog class="auth-modal">`, `auth-footer`.
 
-## 5. Reglas
+## 6. Reglas
 
 1. **Reutilizar antes de crear.** Si existe una clase `v-*` o `auth-*`, usarla.
 2. **Nunca usar colores hex sueltos ni colores de la paleta de Tailwind** (`bg-blue-500`, `text-gray-700`…). Solo `var(--sp-*)` o las clases `spider-*` del preset.

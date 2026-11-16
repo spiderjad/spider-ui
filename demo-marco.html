@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>spider-ui · marco de la app</title>
+<link rel="stylesheet" href="spider-ui.css">
+<style>
+  /* Solo de la demo: el cuerpo del documento de ejemplo. */
+  body { margin: 0; }
+  .demo-doc { max-width: 760px; }
+  .demo-doc h1 { margin: 24px 0 8px; font-size: 40px; line-height: 1.15; letter-spacing: -0.03em; }
+  .demo-doc h2 { margin: 28px 0 8px; font-size: 26px; letter-spacing: -0.02em; }
+  .demo-chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .demo-icono { width: 16px; height: 16px; }
+</style>
+</head>
+<body class="v-app">
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="i-house" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></symbol>
+  <symbol id="i-book-marked" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v8l3-3 3 3V2" /><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20" /></symbol>
+  <symbol id="i-library" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m16 6 4 14" /><path d="M12 6v14" /><path d="M8 8v12" /><path d="M4 4v16" /></symbol>
+  <symbol id="i-shield-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /><path d="m9 12 2 2 4-4" /></symbol>
+  <symbol id="i-circle-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" /><circle cx="12" cy="12" r="3" /></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /><path d="M12 5v14" /></symbol>
+  <symbol id="i-chevrons-up-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5" /><path d="m7 9 5-5 5 5" /></symbol>
+  <symbol id="i-book-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14" /><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></symbol>
+  <symbol id="i-clipboard-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1" /><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /><path d="m9 14 2 2 4-4" /></symbol>
+  <symbol id="i-calendar-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5" /><path d="M16 2v4" /><path d="M8 2v4" /><path d="M3 10h5" /><path d="M17.5 17.5 16 16.3V14" /><circle cx="16" cy="16" r="6" /></symbol>
+  <symbol id="i-file-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M10 9H8" /><path d="M16 13H8" /><path d="M16 17H8" /></symbol>
+  <symbol id="i-file-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M4.268 21a2 2 0 0 0 1.727 1H18a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3" /><path d="m9 18-1.5-1.5" /><circle cx="5" cy="14" r="3" /></symbol>
+  <symbol id="i-circle-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><path d="M12 17h.01" /></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></symbol>
+  <symbol id="i-list-todo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="6" height="6" rx="1" /><path d="m3 17 2 2 4-4" /><path d="M13 6h8" /><path d="M13 12h8" /><path d="M13 18h8" /></symbol>
+  <symbol id="i-chevrons-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17-5-5 5-5" /><path d="m18 17-5-5 5-5" /></symbol>
+  <symbol id="i-chevrons-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m6 17 5-5-5-5" /><path d="m13 17 5-5-5-5" /></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" /></symbol>
+  <symbol id="i-sparkles" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" /><path d="M20 3v4" /><path d="M22 5h-4" /><path d="M4 17v2" /><path d="M5 18H3" /></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12" /><line x1="4" x2="20" y1="6" y2="6" /><line x1="4" x2="20" y1="18" y2="18" /></symbol>
+  <symbol id="i-sun-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8a2.83 2.83 0 0 0 4 4 4 4 0 1 1-4-4" /><path d="M12 2v2" /><path d="M12 20v2" /><path d="m4.9 4.9 1.4 1.4" /><path d="m17.7 17.7 1.4 1.4" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="m6.3 17.7-1.4 1.4" /><path d="m19.1 4.9-1.4 1.4" /></symbol>
+</svg>
+
+<!-- Marco de la app (shell.css). Iconos: Lucide (ISC), 1.75 de trazo como SpiderFolio. -->
+<div class="v-shell" id="shell">
+
+  <nav class="v-rail" aria-label="Áreas">
+    <a class="v-rail__item" href="#"><svg><use href="#i-house"/></svg><span>Inicio</span></a>
+    <a class="v-rail__item" href="#" aria-current="page"><svg><use href="#i-book-marked"/></svg><span>Docs</span><span class="v-rail__dot" aria-hidden="true"></span></a>
+    <a class="v-rail__item" href="#"><svg><use href="#i-library"/></svg><span>Wiki</span></a>
+    <a class="v-rail__item" href="#"><svg><use href="#i-shield-check"/></svg><span>Seguridad</span><span class="v-rail__dot" aria-hidden="true"></span></a>
+    <a class="v-rail__item" href="#"><svg><use href="#i-circle-check"/></svg><span>Calidad</span></a>
+    <div class="v-rail__foot"><a class="v-rail__item" href="#"><svg><use href="#i-settings"/></svg><span>Ajustes</span></a></div>
+  </nav>
+
+  <div class="v-sidebar" id="menu">
+    <aside class="v-sidebar__panel" aria-label="Menú de Documentos">
+      <div class="v-sidebar__top">
+        <button class="v-sidebar__row" type="button" aria-label="Empresa: Demo Fine Foods Ltd.">
+          <span class="v-sidebar__slot"><span class="v-mark" aria-hidden="true">D</span></span>
+          <span class="v-sidebar__row-text v-sidebar__hide"><strong>Demo Fine Foods Ltd.</strong></span>
+          <svg aria-hidden="true"><use href="#i-chevrons-up-down"/></svg>
+        </button>
+      </div>
+      <div class="v-sidebar__actions">
+        <button class="v-sidebar__search" type="button" aria-keyshortcuts="Control+K">
+          <span class="v-sidebar__slot"><svg aria-hidden="true"><use href="#i-search"/></svg></span>
+          <span>Buscar…</span><kbd>Ctrl K</kbd>
+        </button>
+        <button class="v-sidebar__add" type="button" aria-label="Crear"><svg aria-hidden="true"><use href="#i-plus"/></svg></button>
+      </div>
+      <nav class="v-sidebar__nav" aria-label="Documentos">
+        <p class="v-sidebar__title">Documentación</p>
+        <a class="v-nav-item" href="#"><span class="v-sidebar__slot"><svg><use href="#i-book-open"/></svg></span><span class="v-nav-item__label">Mis lecturas</span></a>
+        <a class="v-nav-item" href="#"><span class="v-sidebar__slot"><svg><use href="#i-clipboard-check"/></svg></span><span class="v-nav-item__label">Aprobaciones</span></a>
+        <a class="v-nav-item" href="#"><span class="v-sidebar__slot"><svg><use href="#i-calendar-clock"/></svg></span><span class="v-nav-item__label">Vencimientos</span><span class="v-nav-count v-nav-count--danger" aria-label="2 vencidos">2</span></a>
+        <a class="v-nav-item" href="#"><span class="v-sidebar__slot"><svg><use href="#i-file-text"/></svg></span><span class="v-nav-item__label">Documentos controlados</span></a>
+        <a class="v-nav-item" href="#"><span class="v-sidebar__slot"><svg><use href="#i-file-search"/></svg></span><span class="v-nav-item__label">Salas de auditoría</span></a>
+        <p class="v-sidebar__section">Espacios</p>
+        <a class="v-nav-item" href="#" aria-current="page"><span class="v-sidebar__slot"><svg><use href="#i-folder"/></svg></span><span class="v-nav-item__label">Procedimientos</span></a>
+        <hr class="v-sidebar__sep">
+        <a class="v-nav-item" href="#"><span class="v-sidebar__slot"><svg><use href="#i-circle-help"/></svg></span><span class="v-nav-item__label">Ayuda y guías</span></a>
+      </nav>
+      <div class="v-sidebar__foot">
+        <button class="v-sidebar__row" type="button" aria-label="Diego Pennisi">
+          <span class="v-sidebar__slot"><span class="v-avatar" aria-hidden="true">DP</span></span>
+          <span class="v-sidebar__row-text v-sidebar__hide"><strong>Diego Pennisi</strong><span>Administrador</span></span>
+          <svg aria-hidden="true"><use href="#i-chevrons-up-down"/></svg>
+        </button>
+      </div>
+    </aside>
+    <button class="v-sidebar__edge" type="button" id="borde" aria-label="Contraer menú (Ctrl+B)" aria-keyshortcuts="Control+B"><svg aria-hidden="true"><use href="#i-chevrons-left"/></svg></button>
+  </div>
+
+  <div class="v-shell__body">
+    <header class="v-topbar">
+      <button class="v-btn-icon" type="button" id="abrir-menu" aria-label="Abrir el menú" hidden><svg aria-hidden="true"><use href="#i-menu"/></svg></button>
+      <p class="v-topbar__title">Archivos</p>
+      <p class="v-topbar__date">domingo, 8 de noviembre de 2026</p>
+      <div class="v-topbar__actions">
+        <button class="v-btn-icon" type="button" aria-label="Tareas: 2"><svg aria-hidden="true"><use href="#i-list-todo"/></svg><span class="v-count" aria-hidden="true">2</span></button>
+        <button class="v-btn-secondary v-btn--sm" type="button"><svg class="demo-icono" aria-hidden="true"><use href="#i-sparkles"/></svg><span class="v-ocultar-movil">Preguntar</span></button>
+        <button class="v-btn-icon" type="button" aria-label="Buscar"><svg aria-hidden="true"><use href="#i-search"/></svg></button>
+        <button class="v-btn-icon" type="button" aria-label="Avisos: 5"><svg aria-hidden="true"><use href="#i-bell"/></svg><span class="v-count" aria-hidden="true">5</span></button>
+        <button class="v-btn-icon" type="button" id="tema" aria-label="Cambiar claro / oscuro"><svg aria-hidden="true"><use href="#i-sun-moon"/></svg></button>
+      </div>
+    </header>
+
+    <main class="v-main">
+      <article class="demo-doc">
+        <p class="v-text-sm v-text-muted">Archivos › Procedimientos › Calidad e inocuidad › Control de documentos</p>
+        <div class="demo-chips">
+          <span class="v-badge v-badge--brand">PRC-001</span>
+          <span class="v-badge v-badge--success">Publicado</span>
+          <span class="v-badge v-badge--danger">Vencido hace 4 días</span>
+        </div>
+        <h1>Control de documentos</h1>
+        <h2>Propósito</h2>
+        <p class="v-prose">Definir cómo se escriben, revisan, aprueban y distribuyen los documentos de la empresa.</p>
+        <p class="v-eyebrow">En esta página</p>
+        <p>Texto de interfaz de 14 px · <span class="v-text-sm v-text-muted">secundario de 13 px</span></p>
+      </article>
+    </main>
+  </div>
+
+  <nav class="v-bottombar" aria-label="Áreas">
+    <a class="v-bottombar__item" href="#"><svg><use href="#i-house"/></svg><span>Inicio</span></a>
+    <a class="v-bottombar__item" href="#" aria-current="page"><svg><use href="#i-book-marked"/></svg><span>Docs</span></a>
+    <a class="v-bottombar__item" href="#"><svg><use href="#i-library"/></svg><span>Wiki</span></a>
+    <a class="v-bottombar__item" href="#"><svg><use href="#i-shield-check"/></svg><span>Seguridad</span></a>
+  </nav>
+</div>
+
+<script>
+  // Solo de la demo: contraer el menú (borde o Ctrl+B), abrirlo como hoja en pantallas chicas y el tema.
+  const shell = document.getElementById('shell');
+  const borde = document.getElementById('borde');
+  const contraer = () => {
+    const si = shell.classList.toggle('v-shell--contraido');
+    borde.setAttribute('aria-label', (si ? 'Expandir' : 'Contraer') + ' menú (Ctrl+B)');
+    borde.querySelector('use').setAttribute('href', si ? '#i-chevrons-right' : '#i-chevrons-left');
+  };
+  borde.addEventListener('click', contraer);
+  document.addEventListener('keydown', (e) => { if (e.ctrlKey && e.key.toLowerCase() === 'b') { e.preventDefault(); contraer(); } });
+  const abrir = document.getElementById('abrir-menu');
+  const angosto = matchMedia('(max-width: 1023px)');
+  const ver = () => { abrir.hidden = !angosto.matches; };
+  angosto.addEventListener('change', ver); ver();
+  abrir.addEventListener('click', () => shell.classList.toggle('v-shell--menu-abierto'));
+  document.getElementById('tema').addEventListener('click', () => {
+    const r = document.documentElement;
+    r.dataset.theme = r.dataset.theme === 'dark' ? 'light' : 'dark';
+  });
+</script>
+</body>
+</html>

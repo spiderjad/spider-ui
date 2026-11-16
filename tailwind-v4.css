@@ -36,4 +36,15 @@
   --shadow-spider: var(--sp-shadow);
   --shadow-spider-md: var(--sp-shadow-md);
   --shadow-spider-lg: var(--sp-shadow-lg);
+  /* 1.2.0: la escala de letra de SpiderFolio (text-spider-sm, text-spider-base…). */
+  --text-spider-2xs: var(--sp-fs-2xs);
+  --text-spider-xs: var(--sp-fs-xs);
+  --text-spider-sm: var(--sp-fs-sm);
+  --text-spider-sm--line-height: var(--sp-lh-sm);
+  --text-spider-base: var(--sp-fs-base);
+  --text-spider-base--line-height: var(--sp-lh-base);
+  --text-spider-lg: var(--sp-fs-lg);
+  --text-spider-xl: var(--sp-fs-xl);
+  --text-spider-prose: var(--sp-fs-prose);
+  --text-spider-prose--line-height: var(--sp-lh-prose);
 }
